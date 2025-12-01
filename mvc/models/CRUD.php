@@ -1,0 +1,128 @@
+<?php
+namespace App\Models;
+
+abstract class CRUD extends \PDO { //abstract means we cannot instantiate this class, on its children...
+
+    final public function __construct(){
+        parent::__construct('mysql:host=localhost; dbname=stampee; port=3306; chartset=utf8', 'root', 'admin');
+    }
+
+
+    final public function select($field = null, $order = 'ASC'){
+
+        if($field == null){
+            $field = $this->primaryKey;
+        }
+
+        $sql = "SELECT * FROM $this->table ORDER BY $field $order"; //sequence will be primiary key if dont add an input for order by!!
+        $stmt = $this->query($sql);
+        return $stmt->fetchAll(); //retourne tableau associatif
+    }
+
+    final public function selectId($value){
+
+        $sql = "SELECT * FROM $this->table WHERE $this->primaryKey = :$this->primaryKey";
+
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$this->primaryKey", $value); //eviter linjection SQL
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if($count == 1){
+            return $stmt->fetch(); //tableau unidemensionel
+        }
+        else {
+            return false; //erreur, devrai jamais arriver
+        }
+    }
+
+    final public function insert($data){
+
+        $data_keys = array_fill_keys($this->fillable, '');
+        $data = array_intersect_key($data, $data_keys);
+
+        $fieldName = implode(', ', array_keys($data));
+
+        $fieldValue = ":" . implode(', :', array_keys($data));
+
+        $sql = "INSERT INTO $this->table ($fieldName) VALUES ($fieldValue)";
+
+        $stmt = $this->prepare($sql);
+
+        foreach($data as $key=>$value){
+            $stmt->bindValue(":$key", $value);
+        }
+
+        $stmt->execute();
+
+        return $this->lastInsertId();
+    }
+
+    public function update($data, $id){
+
+        $data_keys = array_fill_keys($this->fillable, '');
+        $data = array_intersect_key($data, $data_keys);
+
+        $fieldName = null;
+
+        foreach($data as $key=>$value){
+            $fieldName .= "$key = :$key, "; //il faut concatener .= pour ajouter a la fin toujours
+        }
+
+        $fieldName = rtrim($fieldName, ', ');
+
+        $sql = "UPDATE $this->table SET $fieldName WHERE $this->primaryKey = :$this->primaryKey";
+
+        $data[$this->primaryKey] = $id;
+
+        $stmt = $this->prepare($sql);
+
+        foreach($data as $key=>$value){
+            $stmt->bindValue(":$key", $value); //replace all the :name, :address with the proper value
+        }
+        $stmt->execute();
+
+        if($stmt){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function delete($value){
+
+        $sql = "DELETE FROM $this->table WHERE $this->primaryKey = :$this->primaryKey";
+
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue("$this->primaryKey", $value);
+        $stmt->execute();
+
+        if($stmt){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function unique($field, $value){
+
+        $sql = "SELECT * FROM $this->table WHERE $field = :$field";
+
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$field", $value);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        if($count == 1){
+            return $stmt->fetch();
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+?>

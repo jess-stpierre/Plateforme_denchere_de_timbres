@@ -1,0 +1,71 @@
+
+
+[id="filtres"] {
+    padding: var(--espace-moyen);
+    max-width: 200px;
+    background-color:var(--couleur-secondaire);
+    border-radius: var(--espace-tres-petit);
+    flex-grow: 4;
+
+    & *+* {
+        margin: var(--espace-petit) 0px;
+    }
+
+    & fieldset {
+        display: flex;
+        flex-direction: column;
+        gap: var(--espace-tres-petit);
+        border-radius: var(--espace-tres-petit);
+
+        & .input {
+            width: var(--espace-moyen);
+            height: var(--espace-moyen);
+            border-color: var(--couleur-tier);
+            background-color: var(--couleur-fond);
+            accent-color: var(--couleur-accent);
+        }
+
+        & .filtre-couleurs {
+            margin: 0 var(--espace-petit);
+        }
+
+        & datalist {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            writing-mode: vertical-lr;
+        }
+
+        & input[type="range"] {
+            background-color: var(--couleur-accent);
+            accent-color: var(--couleur-accent);
+            width: 150px;
+            margin: 0 auto;
+        }
+
+        & label {
+            max-width: fit-content;
+        }
+
+        & div {
+            margin: 0px var(--espace-tres-petit);
+        }
+    }
+
+    @media (max-width: 530px) {
+        padding: var(--espace-petit);
+        max-width: 150px;
+        flex-grow: 4;
+
+        & *+* {
+            margin: var(--espace-tres-petit) 0px;
+        }
+
+        & fieldset {
+            input[type="range"] {
+                width: 100px;
+                margin: 0 auto;
+            }
+        }
+    }
+}

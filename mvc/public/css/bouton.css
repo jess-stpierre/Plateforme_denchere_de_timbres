@@ -1,0 +1,53 @@
+.bouton {
+    padding: var(--espace-petit) var(--espace-moyen);
+    border-radius: var(--espace-tres-petit);
+
+    &.bouton-principal {
+        background-color:var(--couleur-secondaire);
+
+        & a {
+            color: var(--couleur-texte);
+        }
+        &:hover {
+            background: white;
+
+            & a{
+                color: var(--couleur-texte);
+            }
+        }
+    }
+
+    &.bouton-secondaire {
+        background-color: var(--couleur-accent);
+
+        & a{
+            color: var(--couleur-texte);
+        }
+        &:hover{
+            background: var(--couleur-tier);
+            color: var(--couleur-texte-secondaire);
+            text-decoration: underline;
+
+            & a{
+                color: var(--couleur-texte-secondaire);
+            }
+        }
+    }
+
+    &.bouton-tier {
+        background-color: var(--couleur-tier);
+        text-decoration: none;
+        color: var(--couleur-texte-secondaire);
+
+        & a {
+            color: var(--couleur-texte-secondaire);
+        }
+        &:hover {
+            background: var(--couleur-accent);
+
+            & a{
+                color: var(--couleur-texte);
+            }
+        }
+    }
+}

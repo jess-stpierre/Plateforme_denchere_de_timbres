@@ -1,0 +1,92 @@
+:root {
+    /* Espacement */
+    --espace-super-mini: 1px;
+    --espace-mini: 3px;
+    --espace-tres-petit: 5px;
+    --espace-petit: 10px;
+    --espace-moyen: 20px;
+    --espace-grand: 35px;
+    --espace-char: 40ch;
+
+    /* Couleurs */
+    --couleur-principale:  #1D3557;
+    --couleur-secondaire: #457B9D;
+    --couleur-accent: #caa036;
+    --couleur-texte: black;
+    --couleur-tier: black;
+    --couleur-texte-secondaire: #F1FAEE;
+    --couleur-fond: #F1FAEE;
+    --couleur-erreur: rgb(189, 0, 0);
+    --couleur-fond-erreur: rgb(251, 187, 187);
+
+    /* Typographie */
+   --font-titre: "Jost", sans-serif;
+   --font-principal: "Josefin Sans", sans-serif;
+   --taille-h1: 1.5rem;
+   --taille-h2: 1.2rem;
+   --taille-h3: 1.1rem;
+   --taille-grande: 1.0625rem;
+   --taille-normale: 1.0rem;
+   --taille-petite: 0.8rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--couleur-texte);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    overflow-y: auto;
+    background-color: var(--couleur-fond);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+p, span, input, label {
+    font-family: var(--font-principal);
+    font-size: var(--taille-normale);
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-titre);
+}
+
+h1 {
+    font-size: var(--taille-h1);
+    text-decoration: underline;
+    background-color: var(--couleur-secondaire);
+    color: var(--couleur-texte);
+    padding: var(--espace-moyen);
+    border-radius: var(--espace-petit);
+}
+
+h2 {
+    font-size: var(--taille-h2);
+}
+
+h3 {
+    font-size: var(--taille-h3);
+}
+
+h4 {
+    font-size: var(--taille-grande);
+}
+
+main {
+    flex-grow: 1;
+}

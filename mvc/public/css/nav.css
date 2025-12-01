@@ -1,0 +1,87 @@
+.nav {
+    @media (max-width: 530px) {
+		:has(.for-nav-toggle:not(:checked)) & {
+			display: none;
+		}
+        inset: 0;
+        display: flex;
+        gap: var(--espace-moyen);
+        padding: var(--espace-moyen);
+        position: fixed;
+
+        & a {
+            display: block;
+            font-family: var(--font-titre);
+            font-size: var(--font-grande);
+            padding: var(--espace-tres-petit);
+        }
+
+        &.navigation-principal {
+            flex-direction: column;
+            background-color: var(--couleur-principale);
+            top: 20%;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            height: 100%;
+
+            & a {
+                color: var(--couleur-texte-secondaire);
+            }
+        }
+
+        &.navigation-secondaire {
+            z-index: 2;
+            top: 0px;
+            height: 20%;
+            flex-direction: row;
+            align-items: safe center;
+            background-color: var(--couleur-secondaire);
+
+            & a {
+                color: var(--couleur-texte);
+            }
+        }
+
+        & li+li{
+            margin: var(--espace-tres-petit) 0px;
+        }
+	}
+
+    &.navigation-principal {
+        @media (min-width: 530px) {
+            position: sticky;
+            top: 0px;
+
+            display: flex;
+            padding: var(--espace-tres-petit);
+            max-height: fit-content;
+            background-color: var(--couleur-principale);
+
+            & a {
+                display: block;
+                color: var(--couleur-texte-secondaire);
+                font-family: var(--font-titre);
+                font-size: var(--font-grande);
+                max-width: 100%;
+            }
+        }
+    }
+
+    &.navigation-secondaire {
+        @media (min-width: 530px) {
+            padding: 0px var(--espace-petit);
+            background-color: var(--couleur-secondaire);
+
+            & a {
+                display: block;
+                color: var(--couleur-texte);
+                font-family: var(--font-titre);
+                font-size: var(--taille-grande);
+            }
+        }
+    }
+}
+
+
+

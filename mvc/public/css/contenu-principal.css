@@ -1,0 +1,35 @@
+[id="contenu-principal"]{
+    margin: var(--espace-moyen);
+    align-items: flex-start;
+
+    &.flex-gap {
+        display: flex;
+        gap: var(--espace-moyen);
+    }
+
+    & [id="encheres"]{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: var(--espace-moyen);
+    }
+
+    & .resultats {
+        &.flex-gap {
+            display: flex;
+            gap: var(--espace-moyen);
+            flex-wrap: wrap;
+        }
+        align-items: baseline;
+    }
+
+    @media (max-width: 530px) {
+        margin: 0px 0px;
+
+        & [id="encheres"]{
+            & .resultats {
+                margin-top: 45px;
+            }
+        }
+    }
+}

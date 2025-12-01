@@ -1,0 +1,38 @@
+.for-nav-toggle {
+	position: fixed;
+	z-index: 3;
+    right: 0px;
+	top: 0%;
+
+	appearance: none;
+
+    padding: var(--espace-petit);
+    background-color: var(--couleur-accent);
+    border-radius: var(--espace-tres-petit) 0px var(--espace-tres-petit) var(--espace-tres-petit);
+
+	&::before {
+		content: "Ouvrir";
+		margin-right: var(--espace-petit);
+		vertical-align: middle;
+        color: var(--couleur-texte);
+	}
+
+	&:checked::before {
+		content: "Fermer";
+        color: var(--couleur-texte);
+        margin-right: var(--espace-petit);
+		vertical-align: middle;
+	}
+
+	&::after {
+		font-size: var(--taille-grande);
+        font-family: var(--font-titre);
+		vertical-align: middle;
+		content: '≡';
+        color: var(--couleur-texte);
+	}
+
+	@media (min-width: 531px) {
+		display: none;
+	}
+}

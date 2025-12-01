@@ -1,0 +1,75 @@
+.menu-deroulant {
+    position: relative;
+
+    & .sous-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: auto;
+        background: var(--couleur-secondaire);
+        padding: var(--espace-petit);
+        z-index: 1;
+        border-radius: var(--espace-tres-petit);
+
+        & a {
+           color: var(--couleur-texte);
+           display: block;
+           padding: var(--espace-petit);
+        }
+
+        &:hover {
+            background: var(--couleur-secondaire);
+            border-radius: var(--espace-tres-petit);
+        }
+
+        & a:hover {
+            background: var(--couleur-tier);
+            color: var(--couleur-texte-secondaire);
+            border-radius: var(--espace-tres-petit);
+        }
+    }
+
+    &.blue-fonce{
+        background:var(--couleur-principale);
+
+        & a {
+           color: var(--couleur-texte-secondaire);
+           display: block;
+           padding: var(--espace-petit);
+        }
+
+        &:hover {
+            background: var(--couleur-principale);
+        }
+
+        & a:hover {
+            background: var(--couleur-tier);
+            color: var(--couleur-texte-secondaire);
+        }
+    }
+
+    &.jaune-dore {
+        background:var(--couleur-accent);
+
+        & a {
+           color: var(--couleur-texte);
+           display: block;
+           padding: var(--espace-petit);
+        }
+
+        &:hover {
+            background: var(--couleur-accent);
+        }
+
+        & a:hover {
+            background: var(--couleur-tier);
+            color: white;
+        }
+    }
+
+    &.menu-deroulant:hover .sous-menu {
+        display: block;
+        position: absolute;
+        z-index: 2;
+    }
+}
