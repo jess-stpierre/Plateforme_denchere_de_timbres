@@ -6,6 +6,7 @@ use App\Providers\View;
 use App\Models\Membre;
 use App\Providers\Validator;
 use App\Providers\Auth;
+use App\Controllers\AuthController;
 
 class MembreController {
 
@@ -117,6 +118,21 @@ class MembreController {
         }
         else {
             return View::render('error', ['msg' => '404 page pas trouvee!']);
+        }
+    }
+
+    public function delete($data){
+
+        if(Auth::session()) {
+            $membre = new Membre;
+            $delete = $membre->delete($data['id']);
+
+            if($delete){
+                return View::redirect('logout');
+            }
+            else {
+                return View::render('error', ['msg' => 'Na pas pu supprimer!']);
+            }
         }
     }
 }
