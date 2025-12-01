@@ -7,10 +7,10 @@
         <p><strong>Nom d'Utilisateur: </strong>{{ membre.nom_dutilisateur }}</p>
         <p><strong>Courriel: </strong>{{ membre.courriel }}</p>
         <div class="flex-de-base">
-            <a href="{{base}}/membre/edit?id={{ client.id }}" class="bouton bouton-secondaire">Changer l'information</a>
+            <a href="{{base}}/membre/edit" class="bouton bouton-secondaire">Changer votre information</a>
             <form action="{{base}}/membre/delete" method="post">
                 <input type="hidden" name="id" value="{{ membre.id }}">
-                <input type="submit" value="Supprimer le compte" class="bouton bouton-tier">
+                <input type="submit" value="Supprimer le compte et les informations" class="bouton bouton-tier">
             </form>
         </div>
     </div>

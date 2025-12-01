@@ -17,10 +17,10 @@ class MembreController {
     public function store($data){
 
         $validator = new Validator;
-        $validator->field('nom', $data['nom'], "Nom")->min(2)->max(50);
-        $validator->field('nom_dutilisateur', $data['nom_dutilisateur'], "Nom d'Utilisateur")->required()->max(50)->email()->unique('Membre');
-        $validator->field('mot_de_passe', $data['mot_de_passe'], 'Mot de Passe')->min(6)->max(20);
-        $validator->field('courriel', $data['courriel'], 'Courriel')->required()->max(50)->email();
+        $validator->field('nom', $data['nom'], "Nom")->min(2)->max(45);
+        $validator->field('nom_dutilisateur', $data['nom_dutilisateur'], "Nom d'Utilisateur")->required()->max(55)->email()->unique('Membre');
+        $validator->field('mot_de_passe', $data['mot_de_passe'], 'Mot de Passe')->min(6)->max(255);
+        $validator->field('courriel', $data['courriel'], 'Courriel')->required()->max(55)->email();
 
         if($validator->isSuccess()) {
             $membre = new Membre;
@@ -44,6 +44,9 @@ class MembreController {
     }
 
     public function show($data = []){
+
+        Auth::session();
+
         if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != null){
             $id = $_SESSION['user_id'];
 
@@ -55,6 +58,61 @@ class MembreController {
             }
             else {
                 return View::render('error', ['msg' => 'Membre pas trouvee!']);
+            }
+        }
+        else {
+            return View::render('error', ['msg' => '404 page pas trouvee!']);
+        }
+    }
+
+    public function edit($data = []){
+
+        Auth::session();
+
+        if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != null){
+            $id = $_SESSION['user_id'];
+
+            $membre = new Membre;
+            $selectId = $membre->selectId($id);
+
+            if($selectId) {
+                return View::render('membre/edit', ['membre' => $selectId]);
+            }
+            else {
+                return View::render('error', ['msg' => 'Membre pas trouvee!']);
+            }
+        }
+        else {
+            return View::render('error', ['msg' => '404 page pas trouvee!']);
+        }
+    }
+
+    public function update($data=[], $get=[]){
+
+        Auth::session();
+
+        if(isset($_SESSION['user_id']) && $_SESSION['user_id']!= null){
+
+            $validator = new Validator;
+            $validator->field('nom', $data['nom'], "Nom")->min(2)->max(45);
+            $validator->field('courriel', $data['courriel'], 'Courriel')->max(55)->email();
+
+            if($validator->isSuccess()){
+
+                $membre = new Membre;
+                $update = $membre->update($data, $_SESSION['user_id']);
+
+                if($update){
+                    return View::redirect('membre/show');
+                }
+                else {
+                    return View::render('error', ['msg' => 'Na pas pu faire le changement!']);
+                }
+            }
+            else {
+                $errors = $validator->getErrors();
+
+                return View::render('membre/edit', ['errors' => $errors, 'membre'=>$data]);
             }
         }
         else {

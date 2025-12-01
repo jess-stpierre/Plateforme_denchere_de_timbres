@@ -36,18 +36,23 @@
 
     &.bouton-tier {
         background-color: var(--couleur-tier);
-        text-decoration: none;
-        color: var(--couleur-texte-secondaire);
+        color: white;
 
         & a {
             color: var(--couleur-texte-secondaire);
         }
         &:hover {
             background: var(--couleur-accent);
+            text-decoration: underline;
+            color: black;
 
             & a{
                 color: var(--couleur-texte);
             }
         }
+    }
+
+    @media (max-width: 530px){
+        margin: var(--espace-moyen) auto;
     }
 }
