@@ -128,6 +128,7 @@ class MembreController {
             $delete = $membre->delete($data['id']);
 
             if($delete){
+                session_destroy();
                 return View::redirect('membre/create');
             }
             else {

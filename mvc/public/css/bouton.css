@@ -1,15 +1,25 @@
-.bouton {
+.bouton:not(:has(> a)){
     padding: var(--espace-petit) var(--espace-moyen);
+}
+
+
+.bouton {
     border-radius: var(--espace-tres-petit);
+
+    &>a {
+        padding: var(--espace-petit) var(--espace-moyen);
+    }
 
     &.bouton-principal {
         background-color:var(--couleur-secondaire);
 
-        & a {
+        & a{
             color: var(--couleur-texte);
         }
         &:hover {
             background: white;
+            color: var(--couleur-texte);
+            text-decoration: underline;
 
             & a{
                 color: var(--couleur-texte);
