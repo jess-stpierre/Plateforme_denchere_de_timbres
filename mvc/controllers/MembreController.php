@@ -20,7 +20,7 @@ class MembreController {
         $validator = new Validator;
         $validator->field('nom', $data['nom'], "Nom")->min(2)->max(45);
         $validator->field('nom_dutilisateur', $data['nom_dutilisateur'], "Nom d'Utilisateur")->required()->max(55)->email()->unique('Membre');
-        $validator->field('mot_de_passe', $data['mot_de_passe'], 'Mot de Passe')->min(6)->max(255);
+        $validator->field('mot_de_passe', $data['mot_de_passe'], 'Mot de Passe')->min(6)->max(20);
         $validator->field('courriel', $data['courriel'], 'Courriel')->required()->max(55)->email();
 
         if($validator->isSuccess()) {
@@ -128,7 +128,7 @@ class MembreController {
             $delete = $membre->delete($data['id']);
 
             if($delete){
-                return View::redirect('logout');
+                return View::redirect('membre/create');
             }
             else {
                 return View::render('error', ['msg' => 'Na pas pu supprimer!']);

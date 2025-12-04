@@ -16,7 +16,7 @@ class AuthController {
     public function store($data){
 
         $validator = new Validator;
-        $validator->field('nom_dutilisateur', $data['nom_dutilisateur'], "Nom d'Utilisateur")->required()->max(50)->email();
+        $validator->field('nom_dutilisateur', $data['nom_dutilisateur'], "Nom d'Utilisateur")->required()->max(55)->email();
         $validator->field('mot_de_passe', $data['mot_de_passe'], 'Mot de Passe')->min(6)->max(20);
 
         if($validator->isSuccess()) {
@@ -25,7 +25,7 @@ class AuthController {
             $checkmembre = $membre->checkmembre($data['nom_dutilisateur'], $data['mot_de_passe']);
 
             if($checkmembre){
-                return view::redirect('home'); //va sur la page accueil ou encheres?!!!
+                return view::redirect('home'); //va sur la page accueil ou portail d'encheres?!!!
             }
             else {
                 $errors['message'] = "S.V.P. verifier votre nom d'utilisateur et mot de passe.";
