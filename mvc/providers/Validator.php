@@ -80,6 +80,21 @@ class Validator {
         return $this;
     }
 
+    public function validateDate($format = 'Y-m-d' ) {
+        $date = \DateTime::createFromFormat($format, $this->value);
+        if (!$date || $date->format($format) !== $this->value) {
+            $this->errors[$this->key]="Format $this->name invalid. SVP utiliser le $format format.";
+        }
+        return $this;
+    }
+
+    public function positiveInt() {
+        if(!filter_var($this->value, FILTER_VALIDATE_INT) || (int)$this->value <= 0) {
+            $this->errors[$this->key] = "$this->name doit etre un nombre positif.";
+        }
+        return $this;
+    }
+
     //REGLES FIN
 
     public function isSuccess(){
