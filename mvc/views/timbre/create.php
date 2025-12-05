@@ -3,7 +3,7 @@
 <main>
     <div class="container flex-col-center">
         <h1 class="milieu">Publier un Timbre</h1>
-        <form method="post" class="flex-col-center">
+        <form method="post" class="flex-col-center" enctype="multipart/form-data">
             <label>
                 Nom du timbre
                 <input type="text" name="nom" value="{{ timbre.nom }}">
@@ -46,7 +46,41 @@
             {% if errors.certifie is defined %}
                 <span class="error">{{ errors.certifie }}</span>
             {% endif %}
+
             <input type="hidden" name="membre_id" value="{{ membre_id }}">
+
+            <label class="image">
+                Image Principale (obligatoire)
+                <input type="file" name="image_un" accept="image/jpeg,image/png,image/webp" required data-max-size="5242880">
+            </label>
+            {% if errors.image_un is defined %}
+                <span class="error">{{ errors.image_un }}</span>
+            {% endif %}
+
+            <label class="image">
+                Image Secondaire (optionnel)
+                <input type="file" name="image_deux" accept="image/jpeg,image/png,image/webp" data-max-size="5242880">
+            </label>
+            {% if errors.image_deux is defined %}
+                <span class="error">{{ errors.image_deux }}</span>
+            {% endif %}
+
+            <label class="image">
+                Image Trois (optionnel)
+                <input type="file" name="image_trois" accept="image/jpeg,image/png,image/webp" data-max-size="5242880">
+            </label>
+            {% if errors.image_trois is defined %}
+                <span class="error">{{ errors.image_trois }}</span>
+            {% endif %}
+
+            <label class="image">
+                Image Quatre (optionnel)
+                <input type="file" name="image_quatre" accept="image/jpeg,image/png,image/webp" data-max-size="5242880">
+            </label>
+            {% if errors.image_quatre is defined %}
+                <span class="error">{{ errors.image_quatre }}</span>
+            {% endif %}
+
             <label>
                 Couleur
                 <select name="couleur_id">

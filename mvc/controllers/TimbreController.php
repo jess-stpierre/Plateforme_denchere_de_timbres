@@ -10,6 +10,7 @@ use App\Models\PaysOrigine;
 use App\Providers\View;
 use App\Providers\Validator;
 use App\Providers\Auth;
+use App\Providers\FileValidator;
 
 class TimbreController {
 
@@ -43,6 +44,8 @@ class TimbreController {
 
         if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != null){
 
+            $id = $_SESSION['user_id'];
+
             $validator = new Validator;
             $validator->field('nom', $data['nom'], "Nom")->min(2)->max(45);
             $validator->field('date_de_creation', $data['date_de_creation'], "Date de Creation")->required()->validateDate();
@@ -53,12 +56,19 @@ class TimbreController {
             $validator->field('pays_dorigine_id', $data['pays_dorigine_id'], "Pays d'Origine")->required()->positiveInt();
             $validator->field('conditions_id', $data['conditions_id'], "Condition")->required()->positiveInt();
 
-            $id = $_SESSION['user_id'];
+            $error = FileValidator::verify('image_un', 'Image principale', true);
+            if (empty($error) == false) {
+                $validator->addError('image_un', $error);
+            }
 
             if($validator->isSuccess()){
                 $timbre = new Timbre;
                 $insert = $timbre->insert($data);
-                return View::redirect('image/create?timbreid='.$insert);
+
+                $timbre_id = $insert;
+                //Do the image insert as well!!!!
+
+                return View::redirect('timbre/show?id='.$timbre_id);
             }
             else {
                 $errors = $validator->getErrors();

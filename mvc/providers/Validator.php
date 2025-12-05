@@ -21,7 +21,7 @@ class Validator {
             $this->name = ucfirst($name);
         }
 
-        return $this; //return the object itself - for chained methods, to verify many things in form inputs
+        return $this;
     }
 
     //REGLES DE VALIDATION
@@ -61,7 +61,6 @@ class Validator {
         return $this;
     }
 
-    //La méthode unique() fait partie d'une classe chargée de gérer la validation ou de vérifier les contraintes d'unicité dans une application Web. Il instancie dynamiquement un objet modèle en fonction du paramètre qui lui est transmis, appelle la méthode unique de ce modèle pour vérifier l'unicité et, s'il n'est pas unique, ajoute un message d'erreur au tableau d'erreurs. Enfin, il renvoie l'instance d'objet actuelle pour permettre le chaînage de méthodes.
     public function unique($model){
 
         $model = 'App\\Models\\'.$model;
@@ -99,10 +98,15 @@ class Validator {
 
     public function isSuccess(){
         if(empty($this->errors)) return true;
+        else return false;
     }
 
     public function getErrors(){
-        if(!$this->isSuccess()) return $this->errors;
+        return $this->errors;
+    }
+
+    public function addError($key, $value) {
+        $this->errors[$key] = $value;
     }
 }
 

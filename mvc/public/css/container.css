@@ -1,5 +1,5 @@
 .container {
-    width: max-content;
+    width: fit-content;
     margin: var(--espace-moyen) auto;
     border: var(--espace-super-mini) solid var(--couleur-tier);
     border-radius: var(--espace-petit);
@@ -22,17 +22,16 @@
     &.flex-col-center, & .flex-col-center {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         gap: var(--espace-moyen);
         padding: var(--espace-moyen);
     }
 
     & .flex-col-center {
-        align-items: flex-start;
+        align-items: center;
     }
 
-    & input:not([type="submit"]) {
-        width: 100%;
+    & input:not([type="submit"]){
         padding: var(--espace-tres-petit);
         border: var(--espace-super-mini) solid var(--couleur-tier);
         border-radius: var(--espace-petit);
@@ -46,10 +45,23 @@
     }
 
     & textarea, & select {
-        width: 100%;
         border: var(--espace-super-mini) solid var(--couleur-tier);
         border-radius: var(--espace-petit);
         padding: var(--espace-tres-petit);
+    }
+
+    & label {
+        &>input:not([type="file"], [type="checkbox"]) {
+            width: 100%;
+        }
+
+        &.image{
+            max-width: 80%;
+        }
+    }
+
+    & input[type="file"] {
+        width: 100%;
     }
 
     & input[type="checkbox"] {
@@ -61,7 +73,5 @@
         height: var(--espace-moyen);
         cursor: pointer;
     }
-
-
 
 }

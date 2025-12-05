@@ -23,11 +23,18 @@ Route::get('/logout', 'AuthController@delete');
 Route::get('/timbre/create', 'TimbreController@create');
 Route::post('/timbre/create', 'TimbreController@store');
 
-// -/timbres -index
+Route::get('/image/create', 'ImageController@create');
+Route::post('/image/create', 'ImageController@store');
+
 // -/timbre/show -show
+// -/timbres -index
 // -/timbre/edit -edit
 // -/timbre/edit -update
 // -/timbre/delete -delete
+
+// -/image/edit -edit
+// -/image/edit -update
+// -/image/delete -delete
 
 Route::dispatch();
 
