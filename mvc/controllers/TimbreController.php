@@ -58,7 +58,7 @@ class TimbreController {
             if($validator->isSuccess()){
                 $timbre = new Timbre;
                 $insert = $timbre->insert($data);
-                return View::redirect('timbre/show?id='.$insert);
+                return View::redirect('image/create?timbreid='.$insert);
             }
             else {
                 $errors = $validator->getErrors();

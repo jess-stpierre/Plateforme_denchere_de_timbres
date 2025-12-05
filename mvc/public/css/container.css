@@ -31,17 +31,37 @@
         align-items: flex-start;
     }
 
-    input:not([type="submit"]) {
+    & input:not([type="submit"]) {
         width: 100%;
         padding: var(--espace-tres-petit);
         border: var(--espace-super-mini) solid var(--couleur-tier);
         border-radius: var(--espace-petit);
     }
 
-    input[type="submit"] {
+    & input[type="submit"] {
         border: none;
         cursor: pointer;
         outline: none;
         font: inherit;
     }
+
+    & textarea, & select {
+        width: 100%;
+        border: var(--espace-super-mini) solid var(--couleur-tier);
+        border-radius: var(--espace-petit);
+        padding: var(--espace-tres-petit);
+    }
+
+    & input[type="checkbox"] {
+        display: inline-block;
+        border: var(--espace-super-mini) solid var(--couleur-tier);
+        border-radius: var(--espace-petit);
+        margin: var(--espace-mini);
+        width: var(--espace-moyen);
+        height: var(--espace-moyen);
+        cursor: pointer;
+    }
+
+
+
 }

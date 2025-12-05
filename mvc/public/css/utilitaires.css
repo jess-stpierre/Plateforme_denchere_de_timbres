@@ -1,4 +1,10 @@
 .flex-de-base {
+
+    &.wrap {
+        max-width: 300px;
+        flex-wrap: wrap;
+    }
+
     @media (min-width: 530px) {
         display: flex;
         gap: var(--espace-moyen);

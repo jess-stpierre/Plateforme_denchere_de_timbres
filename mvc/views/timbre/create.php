@@ -20,7 +20,7 @@
             {% endif %}
             <label>
                 Description
-                <textarea name="description" cols="20" rows="5">{{ timbre.description }}</textarea>
+                <textarea name="description" cols="20" rows="4">{{ timbre.description }}</textarea>
             </label>
             {% if errors.description is defined %}
                 <span class="error">{{ errors.description }}</span>
@@ -50,7 +50,7 @@
             <label>
                 Couleur
                 <select name="couleur_id">
-                    <option value="">Select</option>
+                    <option value="">Selectionner</option>
                     {% for couleur in couleurs %}
                     <option value="{{ couleur.id }}" {% if couleur.id==timbre.couleur_id %} selected {% endif %}>{{ couleur.nom }}</option>
                     {% endfor %}
@@ -62,7 +62,7 @@
             <label>
                 Pays d'Origine
                 <select name="pays_dorigine_id">
-                    <option value="">Select</option>
+                    <option value="">Selectionner</option>
                     {% for pays_dorigine in paysOrigines %}
                     <option value="{{ pays_dorigine.id }}" {% if pays_dorigine.id==timbre.pays_dorigine_id %} selected {% endif %}>{{ pays_dorigine.nom }}</option>
                     {% endfor %}
@@ -74,7 +74,7 @@
             <label>
                 Condition
                 <select name="conditions_id">
-                    <option value="">Select</option>
+                    <option value="">Selectionner</option>
                     {% for conditions in condition %}
                     <option value="{{ conditions.id }}" {% if conditions.id==timbre.conditions_id %} selected {% endif %}>{{ conditions.nom }}</option>
                     {% endfor %}
