@@ -6,6 +6,7 @@ use App\Models\Timbre;
 use App\Models\Conditions;
 use App\Models\Couleur;
 use App\Models\PaysOrigine;
+use App\Models\Image;
 
 use App\Providers\View;
 use App\Providers\Validator;
@@ -56,9 +57,19 @@ class TimbreController {
             $validator->field('pays_dorigine_id', $data['pays_dorigine_id'], "Pays d'Origine")->required()->positiveInt();
             $validator->field('conditions_id', $data['conditions_id'], "Condition")->required()->positiveInt();
 
-            $error = FileValidator::verify('image_un', 'Image principale', true);
-            if (empty($error) == false) {
-                $validator->addError('image_un', $error);
+            $fileErrors = array();
+            $fileErrors['image_un'] = FileValidator::verify('image_un', 'Image principale', true);
+            if(isset($_FILES['image_deux']) && $_FILES['image_deux']['error'] !== UPLOAD_ERR_NO_FILE) $fileErrors['image_deux'] = FileValidator::verify('image_deux', 'Image secondaire', false);
+            if(isset($_FILES['image_trois']) && $_FILES['image_trois']['error'] !== UPLOAD_ERR_NO_FILE) $fileErrors['image_trois'] = FileValidator::verify('image_trois', 'Image trois', false);
+            if(isset($_FILES['image_quatre']) && $_FILES['image_quatre']['error'] !== UPLOAD_ERR_NO_FILE) $fileErrors['image_quatre'] = FileValidator::verify('image_quatre', 'Image quatre', false);
+
+            //array_filter removes the "" empty string - when theres no errors in FileValidator.php
+            $fileErrors = array_filter($fileErrors);
+
+            if(empty($fileErrors) == false){
+                foreach ($fileErrors as $key => $value) {
+                    $validator->addError($key, $value);
+                }
             }
 
             if($validator->isSuccess()){
@@ -66,7 +77,8 @@ class TimbreController {
                 $insert = $timbre->insert($data);
 
                 $timbre_id = $insert;
-                //Do the image insert as well!!!!
+                $descriptionShort = "timbre qui s'appelle : " . $data['nom'];
+                $this->uploadAllImages($timbre_id, $descriptionShort);
 
                 return View::redirect('timbre/show?id='.$timbre_id);
             }
@@ -87,6 +99,41 @@ class TimbreController {
         }
         else {
             return View::render('error', ['msg' => '404 page pas trouvee!']);
+        }
+    }
+
+    private function uploadAllImages($timbre_id, $descriptionShort){
+        $images = array();
+
+        $images['image_un'] = ['est_principale' => 1, 'ordre_daffichage' => 0];
+        if(isset($_FILES['image_deux']) && $_FILES['image_deux']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_deux'] = ['est_principale' => 0, 'ordre_daffichage' => 1];
+        if(isset($_FILES['image_trois']) && $_FILES['image_trois']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_trois'] = ['est_principale' => 0, 'ordre_daffichage' => 2];
+        if(isset($_FILES['image_quatre']) && $_FILES['image_quatre']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_quatre'] = ['est_principale' => 0, 'ordre_daffichage' => 3];
+
+
+        foreach ($images as $key => $value) {
+            $this->uploadOneImage($key, $value['est_principale'], $value['ordre_daffichage'], $descriptionShort, $timbre_id);
+        }
+    }
+
+    private function uploadOneImage($imageName, $isPrincipal, $order, $descriptionShort, $timbre_id){
+
+        $folder = $_SERVER['DOCUMENT_ROOT'] . ASSET . 'uploads/';
+        $currentImageName = $_FILES[$imageName]['name'];
+        $fileType = strtolower(pathinfo($currentImageName, PATHINFO_EXTENSION));
+
+        //Need unique number that will change each time, in case same user wants to change the photos on same stamp
+        $newImageName = 'timbre_'.$timbre_id.'_nomDeImage_'.$imageName.'_ordreDaffichage_'.$order.'_idUnique_'.uniqid().'.'.$fileType;
+        $tempName = $_FILES[$imageName]["tmp_name"];
+        $moveToURL = $folder . $newImageName;
+        $descriptionShort = 'Image numero '.($order+1).' du '.$descriptionShort;
+
+        if(move_uploaded_file($tempName, $moveToURL)){
+
+            $data = ['image_url' => $moveToURL, 'est_principale' => $isPrincipal, 'ordre_daffichage' => $order, 'description_courte' => $descriptionShort, 'timbre_id' => $timbre_id];
+
+            $image = new Image;
+            $insert = $image->insert($data);
         }
     }
 

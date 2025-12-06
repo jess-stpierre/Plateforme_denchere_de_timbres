@@ -17,7 +17,7 @@ class FileValidator {
         }
 
         //Check pour erreur
-        if ($_FILES[$whichImage]['name'] !== UPLOAD_ERR_OK) {
+        if ($_FILES[$whichImage]['error'] !== UPLOAD_ERR_OK) {
             return "$name a eu une erreur lors du téléchargement.";
         }
 
@@ -27,15 +27,17 @@ class FileValidator {
             return "La taille de $name est de maximum 5 Mo.";
         }
 
-        $extensionUsed = pathinfo($_FILES[$whichImage]['name'], PATHINFO_EXTENSION);
-        $wantedExtensions = ['jpeg', 'png', 'webp'];
+        //check si bonne estension
+        $fileType = $_FILES[$whichImage]['type'];
+        $wantedExtensions = ['image/jpeg', 'image/png', 'image/webp'];
 
-        if (in_array(strtolower($extensionUsed), $wantedExtensions) == false) {
-            return "Le fichier $name doit être entre une image: jpeg, png, webp.";
+        if (in_array($fileType, $wantedExtensions) == false) {
+            return "$name doit être entre une image: jpeg, png, webp.";
         }
 
+        //check si image
         if (getimagesize($_FILES[$whichImage]['tmp_name']) == false) {
-            return "Le fichier $name n'est pas une image valide.";
+            return "$name n'est pas une image valide.";
         }
 
         return "";

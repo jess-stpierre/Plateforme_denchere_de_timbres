@@ -8,6 +8,6 @@ class Image extends CRUD {
 
     protected $table = "image";
     protected $primaryKey = "id";
-    protected $fillable = ['image_url', 'est_principale', 'ordre_daffichage', 'timbre_id'];
+    protected $fillable = ['image_url', 'est_principale', 'ordre_daffichage', 'description_courte', 'timbre_id'];
 
 }
