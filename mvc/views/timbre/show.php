@@ -24,14 +24,13 @@
         {% endfor %}
 
         <div class="flex-de-base wrap">
-            <a href="{{base}}/membre/edit" class="bouton bouton-secondaire">Changer le timbre</a>
-            <form action="{{base}}/membre/delete" method="post">
-                <input type="hidden" name="id" value="{{ membre.id }}">
+            <a href="{{base}}/timbre/edit?id={{ timbre.id }}" class="bouton bouton-secondaire">Changer le timbre</a>
+            <form action="{{base}}/timbre/delete" method="post">
+                <input type="hidden" name="id" value="{{ timbre.id }}">
                 <input type="submit" value="Supprimer le timbre" class="bouton bouton-tier">
             </form>
         </div>
     </div>
-
 </main>
 
 {{ include('layouts/footer.php')}}

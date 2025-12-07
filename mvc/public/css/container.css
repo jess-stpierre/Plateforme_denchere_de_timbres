@@ -58,6 +58,11 @@
         &.image{
             max-width: 80%;
         }
+
+        & img {
+            margin: var(--espace-moyen);
+            justify-self: center;
+        }
     }
 
     & input[type="file"] {

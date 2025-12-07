@@ -94,6 +94,13 @@ class Validator {
         return $this;
     }
 
+    public function bool(){
+        if(!filter_var($this->value, FILTER_VALIDATE_BOOLEAN)){
+            $this->errors[$this->key]="$this->name doit etre une valuer boolean: oui ou non.";
+        }
+        return $this;
+    }
+
     //REGLES FIN
 
     public function isSuccess(){
