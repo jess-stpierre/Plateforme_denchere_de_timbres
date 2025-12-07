@@ -19,6 +19,17 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
         return $stmt->fetchAll(); //retourne tableau associatif
     }
 
+    final public function selectWhere($field, $value, $orderField, $order = 'ASC'){
+
+        $sql = "SELECT * FROM $this->table WHERE $field = :$field ORDER BY $orderField $order";
+
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$field", $value); //eviter linjection SQL
+        $stmt->execute();
+
+        return $stmt->fetchAll(); //retourne tableau associatif
+    }
+
     final public function selectId($value){
 
         $sql = "SELECT * FROM $this->table WHERE $this->primaryKey = :$this->primaryKey";

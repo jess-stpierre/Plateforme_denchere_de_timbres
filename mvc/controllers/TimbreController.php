@@ -118,22 +118,67 @@ class TimbreController {
 
     private function uploadOneImage($imageName, $isPrincipal, $order, $descriptionShort, $timbre_id){
 
-        $folder = $_SERVER['DOCUMENT_ROOT'] . ASSET . 'uploads/';
+        $wholePath = $_SERVER['DOCUMENT_ROOT'] . ASSET . 'uploads/';
+        $folder = 'uploads/';
         $currentImageName = $_FILES[$imageName]['name'];
         $fileType = strtolower(pathinfo($currentImageName, PATHINFO_EXTENSION));
 
         //Need unique number that will change each time, in case same user wants to change the photos on same stamp
-        $newImageName = 'timbre_'.$timbre_id.'_nomDeImage_'.$imageName.'_ordreDaffichage_'.$order.'_idUnique_'.uniqid().'.'.$fileType;
+        $newImageName = 'timbre'.$timbre_id.'_ordreDaffichage'.$order.'_idUnique_'.uniqid().'.'.$fileType;
         $tempName = $_FILES[$imageName]["tmp_name"];
-        $moveToURL = $folder . $newImageName;
+        $moveToURL = $wholePath . $newImageName;
         $descriptionShort = 'Image numero '.($order+1).' du '.$descriptionShort;
+        $url = $folder . $newImageName;
 
         if(move_uploaded_file($tempName, $moveToURL)){
 
-            $data = ['image_url' => $moveToURL, 'est_principale' => $isPrincipal, 'ordre_daffichage' => $order, 'description_courte' => $descriptionShort, 'timbre_id' => $timbre_id];
+            $data = ['image_url' => $url, 'est_principale' => $isPrincipal, 'ordre_daffichage' => $order, 'description_courte' => $descriptionShort, 'timbre_id' => $timbre_id];
 
             $image = new Image;
             $insert = $image->insert($data);
+        }
+    }
+
+    public function show($data = []){
+
+        if(isset($data['id']) && $data['id'] != null){
+
+            $timbre_id = $data['id'];
+
+            $timbre = new Timbre;
+            $timbreSelectId = $timbre->selectId($timbre_id);
+
+            if($timbreSelectId) {
+
+                $image = new Image;
+                $imageSelect = $image->selectWhere('timbre_id', $timbre_id, 'ordre_daffichage');
+
+                $couleur_id = $timbreSelectId['couleur_id'];
+                $couleur = new Couleur;
+                $selectCouleur = $couleur->selectId($couleur_id);
+                $couleurName = $selectCouleur['nom'];
+
+                $pays_id = $timbreSelectId['pays_dorigine_id'];
+                $pays = new PaysOrigine;
+                $selectPays = $pays->selectId($pays_id);
+                $paysdOrigine = $selectPays['nom'];
+
+                $cond_id = $timbreSelectId['conditions_id'];
+                $condition = new Conditions;
+                $selectCond = $condition->selectId($cond_id);
+                $conditionName = $selectCond['nom'];
+
+                return View::render('timbre/show', ['timbre' => $timbreSelectId, 'images' => $imageSelect,
+            'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName]);
+            }
+            else {
+
+                return View::render('error', ['msg' => 'Timbre pas trouvee!']);
+            }
+        }
+        else {
+
+            return View::render('error', ['msg' => '404 page pas trouvee!']);
         }
     }
 
