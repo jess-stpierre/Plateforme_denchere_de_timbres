@@ -90,3 +90,19 @@ h4 {
 main {
     flex-grow: 1;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    color: black;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+td {
+    border: 1px solid black;
+    padding: 20px;
+}

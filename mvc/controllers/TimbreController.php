@@ -384,7 +384,25 @@ class TimbreController {
                 return View::render('error', ['msg' => 'Na pas pu supprimer le timbre!']);
             }
         }
-     }
+    }
+
+    public function index(){
+
+        Auth::session();
+
+        if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != null){
+
+            $id = $_SESSION['user_id'];
+
+            $timbre = new Timbre;
+            $select = $timbre->selectWhere('membre_id', $id, 'id');
+
+            return View::render("timbre/index", ['timbres' => $select]);
+        }
+        else {
+            return View::render('error', ['msg' => '404 page pas trouvee!']);
+        }
+    }
 
 }
 

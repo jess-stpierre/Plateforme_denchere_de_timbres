@@ -13,6 +13,7 @@
                 <input type="submit" value="Supprimer le compte et les informations" class="bouton bouton-tier">
             </form>
             <a href="{{base}}/timbre/create" class="bouton bouton-principal">Publier un Timbre</a>
+            <a href="{{base}}/timbres" class="bouton bouton-secondaire">Voir la liste de mes Timbres</a>
         </div>
     </div>
 

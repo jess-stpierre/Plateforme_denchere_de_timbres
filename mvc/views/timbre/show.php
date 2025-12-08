@@ -21,6 +21,13 @@
 
         {% for image in images %}
             <img src="{{ asset ~ image.image_url }}" alt="{{ image.description_courte }}">
+            {% if image.est_principale == 0 %}
+                <form action="{{base}}/image/delete" method="post">
+                    <input type="hidden" name="image_id" value="{{ image.id }}">
+                    <input type="hidden" name="timbre_id" value="{{ timbre.id }}">
+                    <input type="submit" value="Supprimer cette Image" class="bouton bouton-tier">
+                </form>
+            {% endif %}
         {% endfor %}
 
         <div class="flex-de-base wrap">
