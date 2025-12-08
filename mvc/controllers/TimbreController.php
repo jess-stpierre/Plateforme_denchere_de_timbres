@@ -57,8 +57,8 @@ class TimbreController {
             $validator->field('pays_dorigine_id', $data['pays_dorigine_id'], "Pays d'Origine")->required()->positiveInt();
             $validator->field('conditions_id', $data['conditions_id'], "Condition")->required()->positiveInt();
 
-            if(isset($_POST['certifie'])) $data = ['certifie' => 1];
-            else $data = ['certifie' => 0];
+            if(isset($_POST['certifie']))  $data['certifie'] = 1;
+            else  $data['certifie'] = 0;
 
             $fileErrors = array();
             $fileErrors['image_un'] = FileValidator::verify('image_un', 'Image principale', true);
@@ -109,52 +109,62 @@ class TimbreController {
 
         $returnBoolean = array();
 
-        $images = array();
+        $imagesUploaded = array();
 
-        if(isset($_FILES['image_un']) && $_FILES['image_un']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_un'] = ['est_principale' => 1, 'ordre_daffichage' => 0];
-        if(isset($_FILES['image_deux']) && $_FILES['image_deux']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_deux'] = ['est_principale' => 0, 'ordre_daffichage' => 1];
-        if(isset($_FILES['image_trois']) && $_FILES['image_trois']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_trois'] = ['est_principale' => 0, 'ordre_daffichage' => 2];
-        if(isset($_FILES['image_quatre']) && $_FILES['image_quatre']['error'] !== UPLOAD_ERR_NO_FILE) $images['image_quatre'] = ['est_principale' => 0, 'ordre_daffichage' => 3];
+        if(isset($_FILES['image_un']) && $_FILES['image_un']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_un'] = ['est_principale' => 1, 'ordre_daffichage' => 0];
+        if(isset($_FILES['image_deux']) && $_FILES['image_deux']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_deux'] = ['est_principale' => 0, 'ordre_daffichage' => 1];
+        if(isset($_FILES['image_trois']) && $_FILES['image_trois']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_trois'] = ['est_principale' => 0, 'ordre_daffichage' => 2];
+        if(isset($_FILES['image_quatre']) && $_FILES['image_quatre']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_quatre'] = ['est_principale' => 0, 'ordre_daffichage' => 3];
 
 
-        if( count($images) > 0){
+        if( count($imagesUploaded) > 0){
 
             $image = new Image;
             $imageSelect = $image->selectWhere('timbre_id', $timbre_id, 'ordre_daffichage');
 
-            if(empty($imageSelect)){
+            foreach ($imagesUploaded as $key => $newValue) {
 
-                foreach ($images as $key => $value) {
-                    $this->uploadOneImage($key, $value['est_principale'], $value['ordre_daffichage'], $descriptionShort, $timbre_id);
-                }
-            }
-            else {
-                for ($i=0; $i < count($imageSelect); $i++) {
+                if(empty($key) == false) {
 
-                    $description = "";
+                    if(count($imageSelect) == 0){
+                        $this->uploadOneImage($key, $newValue['est_principale'], $newValue['ordre_daffichage'], $descriptionShort, $timbre_id);
+                    }
+                    else {
+                        $counter = 0;
 
-                    if($descriptionShort != $imageSelect[$i]['description_courte']) $description = $descriptionShort;
-                    else $description = $imageSelect[$i]['description_courte'];
+                        for ($i=0; $i < count($imageSelect); $i++) {
 
-                    foreach ($images as $key => $newValue) {
+                            if($newValue['ordre_daffichage'] == $imageSelect[$i]['ordre_daffichage']){
 
-                        if(empty($key) == false) {
+                                $description = "";
 
-                            if($newValue['ordre_daffichage'] == $i) array_push($returnBoolean, $this->uploadOneImage($key, $newValue['est_principale'], $newValue['ordre_daffichage'], $description, $timbre_id, $imageSelect[$i]['id']));
+                                if($descriptionShort != $imageSelect[$i]['description_courte']) $description = $descriptionShort;
+                                else $description = $imageSelect[$i]['description_courte'];
+
+                                array_push($returnBoolean, $this->uploadOneImage($key, $newValue['est_principale'], $newValue['ordre_daffichage'], $description, $timbre_id, $imageSelect[$i]['id']));
+                            }
+                            else {
+                                $counter = $counter +1;
+                            }
+                        }
+
+                        if($counter == count($imageSelect)){
+                            $this->uploadOneImage($key, $newValue['est_principale'], $newValue['ordre_daffichage'], $descriptionShort, $timbre_id);
                         }
                     }
                 }
             }
         }
 
+
+
+
         if(empty($returnBoolean) == false){
-
-            for ($i=0; $i < count($returnBoolean); $i++) {
-                if($returnBoolean[$i] == false) return false;
-            }
+           return !(in_array(false, $returnBoolean, true));
         }
-
-        return true;
+        else {
+            return true;
+        }
     }
 
     private function uploadOneImage($imageName, $isPrincipal, $order, $descriptionShort, $timbre_id, $image_id = 0){
@@ -290,8 +300,8 @@ class TimbreController {
             $validator->field('pays_dorigine_id', $data['pays_dorigine_id'], "Pays d'Origine")->required()->positiveInt();
             $validator->field('conditions_id', $data['conditions_id'], "Condition")->required()->positiveInt();
 
-            if(isset($_POST['certifie'])) $data = ['certifie' => 1];
-            else $data = ['certifie' => 0];
+            if(isset($_POST['certifie']))  $data['certifie'] = 1;
+            else  $data['certifie'] = 0;
 
             $fileErrors = array();
             if(isset($_FILES['image_un']) && $_FILES['image_un']['error'] !== UPLOAD_ERR_NO_FILE) $fileErrors['image_un'] = FileValidator::verify('image_un', 'Image principale', false);
@@ -344,6 +354,37 @@ class TimbreController {
             return View::render('error', ['msg' => '404 page pas trouvee!']);
         }
     }
+
+    public function delete($data){
+
+        if(Auth::session()) {
+
+            $timbre_id = $data['id'];
+
+            $timbre = new Timbre;
+            $image = new Image;
+
+            $imageSelect = $image->selectWhere('timbre_id', $timbre_id, 'ordre_daffichage');
+
+            $booleanArray = array();
+            for ($i=0; $i < count($imageSelect); $i++) {
+                array_push($booleanArray, $image->delete($imageSelect[$i]['id']));
+            }
+            $imagesDeleted = true;
+            if(empty($booleanArray) == false){
+                $imagesDeleted = !(in_array(false, $booleanArray, true));
+            }
+
+            $deleteTimbre = $timbre->delete($timbre_id);
+
+            if($deleteTimbre && $imagesDeleted){
+                return View::redirect('membre/show');
+            }
+            else {
+                return View::render('error', ['msg' => 'Na pas pu supprimer le timbre!']);
+            }
+        }
+     }
 
 }
 

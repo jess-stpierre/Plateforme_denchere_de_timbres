@@ -6,35 +6,35 @@
         <form method="post" class="flex-col-center" enctype="multipart/form-data">
             <label>
                 Nom du timbre
-                <input type="text" name="nom" value="{{ timbre.nom }}">
+                <input type="text" name="nom" value="{{ timbre.nom }}" required>
             </label>
             {% if errors.nom is defined %}
                 <span class="error">{{ errors.nom }}</span>
             {% endif %}
             <label>
                 Date de creation
-                <input type="date" name="date_de_creation" value="{{ timbre.date_de_creation }}">
+                <input type="date" name="date_de_creation" value="{{ timbre.date_de_creation }}" required>
             </label>
             {% if errors.date_de_creation is defined %}
                 <span class="error">{{ errors.date_de_creation }}</span>
             {% endif %}
             <label>
                 Description
-                <textarea name="description" cols="20" rows="4">{{ timbre.description }}</textarea>
+                <textarea name="description" cols="20" rows="4" required>{{ timbre.description }}</textarea>
             </label>
             {% if errors.description is defined %}
                 <span class="error">{{ errors.description }}</span>
             {% endif %}
             <label>
                 Tirage
-                <input type="number" name="tirage" value="{{ timbre.tirage }}">
+                <input type="number" name="tirage" value="{{ timbre.tirage }}" required>
             </label>
             {% if errors.tirage is defined %}
                 <span class="error">{{ errors.tirage }}</span>
             {% endif %}
             <label>
                 Dimensions
-                <input type="text" name="dimensions" value="{{ timbre.dimensions }}">
+                <input type="text" name="dimensions" value="{{ timbre.dimensions }}" required>
             </label>
             {% if errors.dimensions is defined %}
                 <span class="error">{{ errors.dimensions }}</span>

@@ -29,6 +29,7 @@ Route::post('/image/create', 'ImageController@store');
 Route::get('/timbre/show', "TimbreController@show");
 Route::get('/timbre/edit', 'TimbreController@edit');
 Route::post('/timbre/edit', 'TimbreController@update');
+Route::post('/timbre/delete', 'TimbreController@delete');
 
 // -/timbres -index
 // -/timbre/edit -edit

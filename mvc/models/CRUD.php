@@ -59,6 +59,9 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
 
         $sql = "INSERT INTO $this->table ($fieldName) VALUES ($fieldValue)";
 
+        var_dump("INSERT SQL: " . $sql);
+        var_dump("Data to insert: " . print_r($data, true));
+
         $stmt = $this->prepare($sql);
 
         foreach($data as $key=>$value){
