@@ -49,10 +49,10 @@
         <nav class="nav navigation-principal">
             <ul class="flex-de-base menu-gauche">
                 <li><a href="{{base}}/home"><img src="{{ asset }}img/logo-2-alt.webp" alt="Logo Lord Stampee" class="logo"></a></li>
-                <li class="menu-deroulant"><a href="#">Portail des Enchères &#x25BE;</a>
+                <li class="menu-deroulant"><a href="{{base}}/encheres">Portail des Enchères &#x25BE;</a>
                     <ul class="sous-menu">
-                        <li><a href="#">Enchères Présentes</a></li>
-                        <li><a href="#">Enchères Passées</a></li>
+                        <li><a href="{{base}}/encheres">Enchères Présentes</a></li>
+                        <li><a href="{{base}}/encheres">Enchères Passées</a></li>
                     </ul>
                 </li>
                 <li class="menu-deroulant"><a href="#">Fonctionnement &#x25BE;</a>

@@ -22,10 +22,6 @@ Route::get('/logout', 'AuthController@delete');
 
 Route::get('/timbre/create', 'TimbreController@create');
 Route::post('/timbre/create', 'TimbreController@store');
-
-// Route::get('/image/create', 'ImageController@create');
-// Route::post('/image/create', 'ImageController@store');
-
 Route::get('/timbre/show', "TimbreController@show");
 Route::get('/timbre/edit', 'TimbreController@edit');
 Route::post('/timbre/edit', 'TimbreController@update');
@@ -34,8 +30,8 @@ Route::get('/timbres', 'TimbreController@index');
 
 Route::post('/image/delete', 'ImageController@delete');
 
-// -/timbres -index
-// -/image/delete -delete
+Route::get('/encheres', 'EnchereController@index');
+Route::get('/enchere/show', "EnchereController@show");
 
 Route::dispatch();
 
