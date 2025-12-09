@@ -2,9 +2,138 @@
     margin: var(--espace-moyen);
     align-items: flex-start;
 
-    &.flex-gap {
+    &.flex-gap, .flex-gap {
         display: flex;
         gap: var(--espace-moyen);
+
+        &.centre {
+            justify-content: center;
+            align-self: center;
+            align-content: center;
+            align-items: center;
+            margin: var(--espace-moyen) auto;
+        }
+
+        &.detail-du-timbre {
+            justify-content: space-evenly;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: var(--espace-moyen) auto;
+
+            & div>*+*{
+                margin: var(--espace-moyen) 0;
+            }
+        }
+
+        &.colonnes {
+            gap: var(--espace-petit);
+            margin: var(--espace-petit) var(--espace-petit);
+
+            & [id="image-primaire"] {
+                width: 250px;
+                max-height: 250px;
+                object-fit: cover;
+            }
+
+            & .photo-galerie {
+                width: 50px;
+                margin: 0;
+                align-items: flex-start;
+                max-height: 50px;
+                object-fit: cover;
+            }
+
+            @media (min-width: 801px) {
+
+                flex-wrap: wrap;
+                flex-direction: column;
+
+                &.colonnes-petit{
+                    gap: var(--espace-moyen);
+                    border: 3px solid var(--couleur-quatre);
+                    border-radius: var(--espace-tres-petit);
+                    padding: 0px 20px 0px 20px;
+                }
+            }
+        }
+    }
+
+    & .bordure {
+        border: 3px solid var(--couleur-quatre);;
+        border-radius: var(--espace-tres-petit);
+        width: fit-content;
+        max-height: fit-content;
+        margin: var(--espace-moyen) auto;
+        padding: var(--espace-moyen);
+    }
+
+    & [id="offre"]{
+        width: 300px;
+        height: 175px;
+        background-color: var(--couleur-quatre);
+        color: var(--couleur-texte-secondaire);
+        border-radius: var(--espace-tres-petit);
+    }
+
+    & [id="prix"]{
+        padding: var(--espace-petit);
+        border: 1px solid black;
+
+        & input {
+            padding: var(--espace-tres-petit);
+            border: 0;
+            text-align: center;
+            font-weight: bold;
+
+            &::placeholder {
+                font-weight: bold;
+                color: var(--couleur-texte);
+            }
+        }
+    }
+
+    .bg-input {
+        border-radius: var(--espace-tres-petit);
+        background-color: var(--couleur-accent);
+        color: var(--couleur-texte);
+    }
+
+    & [id="mise"]{
+        background-color: var(--couleur-principale);
+        text-align: center;
+        align-items: baseline;
+        align-self: baseline;
+        align-content: baseline;
+
+        & a {
+            width: 70%;
+            background-color: #5da9d8;;
+            border-radius: var(--espace-tres-petit);
+            padding: var(--espace-moyen);
+            font-weight: bolder;
+            color: var(--couleur-texte);
+            border: 1px solid black;
+        }
+    }
+
+    & .conteneur {
+        width: 300px;
+        height: fit-content;
+        color: var(--couleur-texte-secondaire);
+        border-radius: var(--espace-tres-petit);
+        padding: var(--espace-moyen);
+    }
+
+    & [id="fleches-changement"]{
+        justify-content: space-between;
+        gap: 40px;
+
+        & a {
+            text-decoration: none;
+            color: var(--couleur-texte);
+            font-size: var(--taille-h3);
+            font-weight: 800;
+        }
     }
 
     & [id="encheres"]{
@@ -23,12 +152,114 @@
         align-items: baseline;
     }
 
+
+
+    @media (max-width: 800px) {
+
+        & .resultats {
+            margin-top: 45px;
+        }
+
+        & .flex-gap {
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        &.flex-gap, .flex-gap {
+
+            & .centre {
+                margin: var(--espace-petit);
+                align-self: flex-end;
+
+                & h3, & span {
+                    margin: var(--espace-petit);
+                }
+            }
+
+            &.colonnes {
+
+                /* margin: 0 auto; */
+
+                & .photo-galerie {
+                    width: 50px;
+                    margin: var(--espace-mini) auto;
+                }
+
+                @media (min-width: 531px) {
+                    flex-direction: column;
+                    flex-wrap: wrap;
+
+                }
+            }
+
+            &.colonnes-petit{
+                flex-direction: column;
+                flex-wrap: wrap;
+                border: 3px solid var(--couleur-quatre);
+                border-radius: var(--espace-tres-petit);
+                padding: 0px 20px 20px 20px;
+            }
+
+            & p {
+                max-width:60ch;
+                /* margin-top: var(--espace-moyen); */
+            }
+        }
+
+        & [id="image-primaire"]{
+            max-width: 250px;
+            max-height: 270px;
+            margin: auto;
+        }
+
+        & .bordure {
+            max-width: fit-content;
+            max-height: fit-content;
+            margin: var(--espace-moyen) auto;
+            flex-wrap: wrap;
+        }
+
+        [id="offre"]{
+            background-color: var(--couleur-quatre);
+        }
+    }
+
     @media (max-width: 530px) {
         margin: 0px 0px;
 
-        & [id="encheres"]{
-            & .resultats {
-                margin-top: 45px;
+        & .resultats {
+            margin-top: 45px;
+        }
+
+        & [id="image-primaire"]{
+            max-width: 250px;
+            max-height: 250px;
+        }
+
+        & .bordure {
+            border: 3px solid var(--couleur-quatre);
+            border-radius: var(--espace-tres-petit);
+            width: max-content;
+            max-height: fit-content;
+            margin: var(--espace-moyen);
+        }
+
+        &.colonnes-petit{
+            flex-direction: column;
+            flex-wrap: wrap;
+            border: 3px solid var(--couleur-quatre);
+            border-radius: var(--espace-tres-petit);
+            padding: 0px 20px 20px 20px;
+        }
+
+        &.colonnes {
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin: 0 auto;
+
+            & .photo-galerie {
+                width: 50px;
+                margin: var(--espace-mini) auto;
             }
         }
     }

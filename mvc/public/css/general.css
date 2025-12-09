@@ -18,6 +18,7 @@
     --couleur-fond: #F1FAEE;
     --couleur-erreur: rgb(189, 0, 0);
     --couleur-fond-erreur: rgb(251, 187, 187);
+    --couleur-quatre: rgb(66, 66, 66);
 
     /* Typographie */
    --font-titre: "Jost", sans-serif;
