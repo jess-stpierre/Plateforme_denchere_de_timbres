@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Providers\View;
-
 use App\Providers\Validator;
 use App\Providers\Auth;
 
@@ -12,6 +11,7 @@ use App\Controllers\TimbreController;
 use App\Models\Membre;
 use App\Models\Timbre;
 use App\Models\Image;
+use App\Models\Enchere;
 
 class MembreController {
 
@@ -134,8 +134,16 @@ class MembreController {
 
             $timbre = new Timbre;
             $selectTimbre = $timbre->selectWhere('membre_id', $membre_id, 'id');
-
             $deleteTimbre = array();
+
+            $enchere = new Enchere;
+            $selectEnchere = $enchere->selectWhere('membre_id', $membre_id, 'id');
+            $deleteEnchere = array();
+
+            foreach ($selectEnchere as $key => $value) {
+                $enchere_id = $value['id'];
+                array_push($deleteEnchere, $enchere->delete($enchere_id));
+            }
 
             foreach ($selectTimbre as $key => $value) {
 
@@ -163,10 +171,15 @@ class MembreController {
                 $timbresDeleted = !(in_array(false, $deleteTimbre, true));
             }
 
+            $encheresDeleted = true;
+            if(empty($deleteEnchere) == false){
+                $encheresDeleted = !(in_array(false, $deleteEnchere, true));
+            }
+
             $membre = new Membre;
             $deleteMembre = $membre->delete($membre_id);
 
-            if($deleteMembre && $timbresDeleted){
+            if($deleteMembre && $timbresDeleted && $encheresDeleted){
                 session_destroy();
                 return View::redirect('membre/create');
             }

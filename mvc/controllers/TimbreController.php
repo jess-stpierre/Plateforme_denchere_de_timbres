@@ -7,6 +7,7 @@ use App\Models\Conditions;
 use App\Models\Couleur;
 use App\Models\PaysOrigine;
 use App\Models\Image;
+use App\Models\Enchere;
 
 use App\Providers\View;
 use App\Providers\Validator;
@@ -375,10 +376,21 @@ class TimbreController {
                 $imagesDeleted = !(in_array(false, $booleanArray, true));
             }
 
+            $enchere = new Enchere;
+            $enchereSelect = $enchere->selectWhere('timbre_id', $timbre_id, 'id');
+            $booleansEncheres = array();
+            for ($i=0; $i < count($enchereSelect); $i++) {
+                array_push($booleansEncheres, $enchere->delete($enchereSelect[$i]['id']));
+            }
+            $encheresDeleted = true;
+            if(empty($booleansEncheres) == false){
+                $encheresDeleted  = !(in_array(false, $booleansEncheres, true));
+            }
+
             $deleteTimbre = $timbre->delete($timbre_id);
 
-            if($deleteTimbre && $imagesDeleted){
-                return View::redirect('membre/show');
+            if($deleteTimbre && $imagesDeleted && $encheresDeleted){
+                return View::redirect('timbres');
             }
             else {
                 return View::render('error', ['msg' => 'Na pas pu supprimer le timbre!']);
