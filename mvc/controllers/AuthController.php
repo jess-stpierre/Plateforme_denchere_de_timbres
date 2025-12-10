@@ -25,7 +25,7 @@ class AuthController {
             $checkmembre = $membre->checkmembre($data['nom_dutilisateur'], $data['mot_de_passe']);
 
             if($checkmembre){
-                return view::redirect('home'); //va sur la page accueil ou portail d'encheres?!!!
+                return view::redirect('home');
             }
             else {
                 $errors['message'] = "S.V.P. verifier votre nom d'utilisateur et mot de passe.";

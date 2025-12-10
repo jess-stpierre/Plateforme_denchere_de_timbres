@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-abstract class CRUD extends \PDO { //abstract means we cannot instantiate this class, on its children...
+abstract class CRUD extends \PDO {
 
     final public function __construct(){
         parent::__construct('mysql:host=localhost; dbname=stampee; port=3306; chartset=utf8', 'root', 'admin');
@@ -14,9 +14,9 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
             $field = $this->primaryKey;
         }
 
-        $sql = "SELECT * FROM $this->table ORDER BY $field $order"; //sequence will be primiary key if dont add an input for order by!!
+        $sql = "SELECT * FROM $this->table ORDER BY $field $order";
         $stmt = $this->query($sql);
-        return $stmt->fetchAll(); //retourne tableau associatif
+        return $stmt->fetchAll();
     }
 
     final public function selectWhere($field, $value, $orderField, $order = 'ASC'){
@@ -24,10 +24,10 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
         $sql = "SELECT * FROM $this->table WHERE $field = :$field ORDER BY $orderField $order";
 
         $stmt = $this->prepare($sql);
-        $stmt->bindValue(":$field", $value); //eviter linjection SQL
+        $stmt->bindValue(":$field", $value);
         $stmt->execute();
 
-        return $stmt->fetchAll(); //retourne tableau associatif
+        return $stmt->fetchAll();
     }
 
     final public function selectId($value){
@@ -35,16 +35,16 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
         $sql = "SELECT * FROM $this->table WHERE $this->primaryKey = :$this->primaryKey";
 
         $stmt = $this->prepare($sql);
-        $stmt->bindValue(":$this->primaryKey", $value); //eviter linjection SQL
+        $stmt->bindValue(":$this->primaryKey", $value);
         $stmt->execute();
 
         $count = $stmt->rowCount();
 
         if($count == 1){
-            return $stmt->fetch(); //tableau unidemensionel
+            return $stmt->fetch();
         }
         else {
-            return false; //erreur, devrai jamais arriver
+            return false;
         }
     }
 
@@ -78,7 +78,7 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
         $fieldName = null;
 
         foreach($data as $key=>$value){
-            $fieldName .= "$key = :$key, "; //il faut concatener .= pour ajouter a la fin toujours
+            $fieldName .= "$key = :$key, ";
         }
 
         $fieldName = rtrim($fieldName, ', ');
@@ -90,7 +90,7 @@ abstract class CRUD extends \PDO { //abstract means we cannot instantiate this c
         $stmt = $this->prepare($sql);
 
         foreach($data as $key=>$value){
-            $stmt->bindValue(":$key", $value); //replace all the :name, :address with the proper value
+            $stmt->bindValue(":$key", $value);
         }
         $stmt->execute();
 

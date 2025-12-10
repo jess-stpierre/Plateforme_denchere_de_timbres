@@ -152,8 +152,6 @@
         align-items: baseline;
     }
 
-
-
     @media (max-width: 800px) {
 
         & .resultats {
@@ -177,9 +175,6 @@
             }
 
             &.colonnes {
-
-                /* margin: 0 auto; */
-
                 & .photo-galerie {
                     width: 50px;
                     margin: var(--espace-mini) auto;
@@ -202,7 +197,6 @@
 
             & p {
                 max-width:60ch;
-                /* margin-top: var(--espace-moyen); */
             }
         }
 
