@@ -43,7 +43,7 @@ class HomeController {
             $date_de_debut = $enchereSelect[$i]['date_de_debut'];
             $date_de_fin = $enchereSelect[$i]['date_de_fin'];
 
-            $debut = new DateTime($date_de_debut);
+            $debut = new DateTime();
             $fin = new DateTime($date_de_fin);
             $difference = $debut->diff($fin);
             $temps = $difference->format('%a days, %h hours, %i minutes');
