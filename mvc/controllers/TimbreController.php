@@ -109,7 +109,6 @@ class TimbreController {
     private function uploadAllImages($timbre_id, $descriptionShort){
 
         $returnBoolean = array();
-
         $imagesUploaded = array();
 
         if(isset($_FILES['image_un']) && $_FILES['image_un']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_un'] = ['est_principale' => 1, 'ordre_daffichage' => 0];
@@ -149,16 +148,15 @@ class TimbreController {
                             }
                         }
 
+                        //si ont ajoute une image
                         if($counter == count($imageSelect)){
+
                             $this->uploadOneImage($key, $newValue['est_principale'], $newValue['ordre_daffichage'], $descriptionShort, $timbre_id);
                         }
                     }
                 }
             }
         }
-
-
-
 
         if(empty($returnBoolean) == false){
            return !(in_array(false, $returnBoolean, true));
