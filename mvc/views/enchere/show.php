@@ -37,14 +37,14 @@
                         <div id="offre" class="conteneur flex-gap colonnes centre">
                             <p>Prix plancher: <span>{{ enchere.prix_plancher }}</span>$</p>
                             <p>Offre actuelle: <span>{{ enchere.prix_courant }}</span>$</p>
-                            <p>par: <span>*X*</span></p>
+                            <p>par: <span>{{ nomdeMembre }}</span></p>
                             <div id="prix" class="bg-input">
                                 <label for="cad" class="visuellement-cache">Le montant de CAD$ que vous voulez misez</label>
                                 <input class="bg-input" type="decimal" name="montant" id="cad" placeholder="Faire une mise - $CAD">
                             </div>
                         </div>
                         <div id="mise" class="conteneur flex-gap colonnes centre">
-                            <p>Nombres de mises: <span>*X*</span></p>
+                            <p>Nombres de mises: <span>{{ nombreDeMises }}</span></p>
                             <input type="submit" value="Placer une mise" class="bouton bouton-principal">
                         </div>
                     </form>

@@ -14,6 +14,7 @@ use App\Models\Image;
 use App\Models\Conditions;
 use App\Models\Couleur;
 use App\Models\PaysOrigine;
+use App\Models\Membre;
 
 use DateTime;
 
@@ -39,11 +40,15 @@ class OffreController {
             }
 
             if($validator->isSuccess()){
-                $offre = new offre;
+                $offre = new Offre;
                 $newData = ['montant' => $data['montant'], 'enchere_id' => $data['enchere_id'], 'membre_id' => $membre_id];
                 $insert = $offre->insert($newData);
 
-                return View::redirect('enchere/show?id='.$data['enchere_id']);
+                //updater le prix_courant de l'enchere
+                $updateData = ['date_de_debut' => $enchereSelectId['date_de_debut'], 'date_de_fin' => $enchereSelectId['date_de_fin'],'prix_plancher' => $enchereSelectId['prix_plancher'],'prix_courant' => $data['montant'], 'coups_de_coeur', $enchereSelectId['coups_de_coeur'], 'timbre_id' => $enchereSelectId['timbre_id'], 'membre_id' => $enchereSelectId['membre_id']];
+
+                $updateEnchere = $enchere->update($updateData, $data['enchere_id']);
+               if($updateEnchere) return View::redirect('enchere/show?id='.$data['enchere_id']);
             }
             else {
                 $errors = $validator->getErrors();
@@ -78,7 +83,22 @@ class OffreController {
                 $selectCond = $condition->selectId($cond_id);
                 $conditionName = $selectCond['nom'];
 
-                return View::render('enchere/show', ['errors' => $errors, 'enchere' => $enchereSelectId, 'temps' => $temps, 'timbre' => $timbreSelectId, 'images' => $imageSelect, 'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName]);
+                $offre = new Offre;
+                $offreSelect = $offre->selectWhere('enchere_id', $data['enchere_id'] , 'id', 'DESC');
+                $offreCount = count($offreSelect);
+
+                //Trouver qui a fais la derniere offre
+                $offreSelectId = $offre->selectId($offreSelect[0]['id']);
+                $membre = new Membre;
+                if(empty($offreSelectId) == false){
+                    $membreSelectId = $membre->selectId($offreSelectId['membre_id']);
+                    $membreName = $membreSelectId['nom'];
+                }
+                else {
+                    $membreName = 'Aucun';
+                }
+
+                return View::render('enchere/show', ['errors' => $errors, 'enchere' => $enchereSelectId, 'temps' => $temps, 'timbre' => $timbreSelectId, 'images' => $imageSelect, 'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName, 'nombreDeMises' => $offreCount, 'nomdeMembre' => $membreName]);
             }
         }
         else {

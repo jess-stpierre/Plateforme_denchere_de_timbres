@@ -8,6 +8,7 @@ use App\Models\Enchere;
 use App\Models\Conditions;
 use App\Models\Couleur;
 use App\Models\PaysOrigine;
+use App\Models\Offre;
 
 use App\Providers\View;
 use App\Providers\Validator;
@@ -48,7 +49,11 @@ class HomeController {
             $difference = $debut->diff($fin);
             $temps = $difference->format('%a days, %h hours, %i minutes');
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps];
+            $offre = new Offre;
+            $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
+            $offreCount = count($offreSelect);
+
+            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount];
         }
 
         return View::render("home", ['datas' => $datas]);

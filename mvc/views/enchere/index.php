@@ -15,8 +15,8 @@
                         <span>Temps restant: <span>{{ data.temps }}</span></span>
                     </a>
                     <div class="Mise flex-gap">
-                        <span><span>*X*</span> mises</span>
-                        <a href="#">Misez maintenant</a>
+                        <span><span>{{ data.nombreDeMises }}</span> mises</span>
+                        <a href="{{base}}/enchere/show?id={{ data.id }}">Misez maintenant</a>
                     </div>
                 </li>
             {% endfor %}
