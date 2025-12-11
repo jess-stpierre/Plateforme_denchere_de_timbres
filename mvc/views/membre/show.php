@@ -14,6 +14,7 @@
             </form>
             <a href="{{base}}/timbre/create" class="bouton bouton-principal">Publier un Timbre</a>
             <a href="{{base}}/timbres" class="bouton bouton-secondaire">Voir la liste de mes Timbres</a>
+            <a href="{{base}}/offres" class="bouton bouton-principal">Voir la liste de mes Mises</a>
         </div>
     </div>
 

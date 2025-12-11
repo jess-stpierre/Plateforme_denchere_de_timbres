@@ -32,7 +32,9 @@ Route::post('/image/delete', 'ImageController@delete');
 
 Route::get('/encheres', 'EnchereController@index');
 Route::get('/enchere/show', "EnchereController@show");
+
 Route::post('/enchere/show', 'OffreController@store');
+Route::get('/offres', 'OffreController@index');
 
 Route::dispatch();
 

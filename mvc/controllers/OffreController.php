@@ -106,4 +106,39 @@ class OffreController {
         }
     }
 
+    public function index(){
+
+        Auth::session();
+
+        if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != null){
+
+            $membre_id = $_SESSION['user_id'];
+
+            $offre = new Offre;
+            $offreSelected = $offre->selectWhere('membre_id', $membre_id, 'id');
+
+            $newDatas = array();
+
+            foreach ($offreSelected  as $key => $value) {
+
+                $enchere = new Enchere;
+                $enchereSelectedId = $enchere->selectId($value['enchere_id']);
+                $prix_courant = $enchereSelectedId['prix_courant'];
+
+                $timbre = new Timbre;
+                $timbreSelectedId = $timbre->selectId($enchereSelectedId['timbre_id']);
+                $nom_du_timbre = $timbreSelectedId['nom'];
+
+                $newData = ['enchere_id' => $enchereSelectedId['id'],'montant' => $value['montant'], 'date_de_loffre' => $value['date_de_loffre'], 'prix_courant_denchere' => $prix_courant, 'nom_du_timbre' => $nom_du_timbre];
+
+                array_push($newDatas, $newData);
+            }
+
+            return View::render("offre/index", ['datas' => $newDatas]);
+        }
+        else {
+            return View::render('error', ['msg' => '404 page pas trouvee!']);
+        }
+    }
+
 }
