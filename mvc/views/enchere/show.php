@@ -27,22 +27,27 @@
                         <h3>*COUPS DE COEUR DU LORD*</h3>
                     {% endif %}
                     <span>Temps restant: <span>{{ temps }}</span></span>
-                    <div class="flex-gap colonnes">
+
+                    {% for error in errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+
+                    <form action="{{base}}/enchere/show?id={{ enchere.id }}" method="post" class="flex-gap colonnes">
+                        <input type="hidden" name="enchere_id" value="{{ enchere.id }}">
                         <div id="offre" class="conteneur flex-gap colonnes centre">
                             <p>Prix plancher: <span>{{ enchere.prix_plancher }}</span>$</p>
                             <p>Offre actuelle: <span>{{ enchere.prix_courant }}</span>$</p>
                             <p>par: <span>*X*</span></p>
                             <div id="prix" class="bg-input">
                                 <label for="cad" class="visuellement-cache">Le montant de CAD$ que vous voulez misez</label>
-                                <input class="bg-input" type="number" name="cad" id="cad" placeholder="Faire une mise - $CAD">
+                                <input class="bg-input" type="decimal" name="montant" id="cad" placeholder="Faire une mise - $CAD">
                             </div>
                         </div>
                         <div id="mise" class="conteneur flex-gap colonnes centre">
                             <p>Nombres de mises: <span>*X*</span></p>
-                            <a href="#">Placer une mise</a>
+                            <input type="submit" value="Placer une mise" class="bouton bouton-principal">
                         </div>
-
-                    </div>
+                    </form>
                 </section>
             </div>
         </section>

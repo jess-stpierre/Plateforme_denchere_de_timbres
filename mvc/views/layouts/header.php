@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset }}css/grille.css">
     <link rel="stylesheet" href="{{ asset }}css/footer.css">
     <link rel="stylesheet" href="{{ asset }}css/menu-deroulant.css">
+    <link rel="stylesheet" href="{{ asset }}css/error.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

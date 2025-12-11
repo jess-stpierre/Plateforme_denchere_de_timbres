@@ -1,0 +1,12 @@
+& .error{
+    width: fit-content;
+    display: inline-block;
+    padding: var(--espace-petit);
+    background-color: var(--couleur-fond-erreur);
+    border-radius: var(--espace-tres-petit);
+    border: var(--couleur-erreur) var(--espace-super-mini) solid;
+    font-size: var(--taille-petite);
+    color: var(--couleur-erreur);
+    margin: 0 auto;
+    text-align: center;
+}
