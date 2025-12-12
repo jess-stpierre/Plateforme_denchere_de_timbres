@@ -34,6 +34,16 @@ class EnchereController {
             $timbreSelected = $timbre->selectId($timbre_id);
             $timbreName = $timbreSelected['nom'];
 
+            $couleur_id = $timbreSelected['couleur_id'];
+            $couleur = new Couleur;
+            $couleurSelected = $couleur->selectId($couleur_id);
+            $couleurName = $couleurSelected['nom'];
+
+            //annee ??
+            //pays ??
+            //conditions ??
+            //certifie ??
+
             $image = new Image;
             $imageSelect = $image->selectWhere('timbre_id', $timbre_id, 'ordre_daffichage');
             $url = $imageSelect[0]['image_url'];
@@ -52,10 +62,13 @@ class EnchereController {
             $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
             $offreCount = count($offreSelect);
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount];
+            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName];
+
+            $couleur = new Couleur;
+            $selectCouleur = $couleur->select();
         }
 
-        return View::render("enchere/index", ['datas' => $datas]);
+        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur]);
     }
 
     public function show($data = []){
