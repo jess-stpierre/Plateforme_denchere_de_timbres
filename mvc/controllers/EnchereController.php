@@ -25,6 +25,7 @@ class EnchereController {
         $datas = array();
 
         $annees = ["1800 - 1850", "1851 - 1900", "1901 - 1950", "1951 - 2000", "2001 - 2050"];
+        $certifies = ["Oui", "Non"];
 
         for ($i=0; $i < count($enchereSelect); $i++) {
 
@@ -63,13 +64,30 @@ class EnchereController {
             else {
                 $anneeSelected = $annees[4];
             }
+
+            //filtre certifie
+            $certifieSelect = "";
+            $certifier = $timbreSelected['certifie'];
+            if($certifier == 1){
+                $certifieSelect = "Oui";
+            }
+            else {
+                $certifieSelect = "Non";
+            }
+
             //filtre pays
             $pays_id = $timbreSelected['pays_dorigine_id'];
             $pays = new PaysOrigine;
             $paysSelected = $pays->selectId($pays_id);
             $paysName = $paysSelected['nom'];
 
-            //conditions ??
+            //filtre conditions
+            $cond_id = $timbreSelected['conditions_id'];
+            $condition = new Conditions;
+            $condSelected = $condition->selectId($cond_id);
+            $condName = $condSelected['nom'];
+
+
             //certifie ??
 
             $image = new Image;
@@ -90,7 +108,7 @@ class EnchereController {
             $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
             $offreCount = count($offreSelect);
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName];
+            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName, 'condition' => $condName, 'certifie' => $certifieSelect];
         }
 
         $couleur = new Couleur;
@@ -99,7 +117,10 @@ class EnchereController {
         $pays = new PaysOrigine;
         $selectPays = $pays->select();
 
-        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays]);
+        $condi = new Conditions;
+        $selectCond = $condi->select();
+
+        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays, 'conditions' => $selectCond, 'certifies' => $certifies]);
     }
 
     public function show($data = []){

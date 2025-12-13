@@ -38,29 +38,22 @@
             <fieldset>
                 <legend>Condition</legend>
 
-                <div class="filtre-condition"><input type="radio" id="Parfaite" name="condition" value="Parfaite" class="input">
-                <label for="Parfaite">Parfaite</label></div>
-
-                <div class="filtre-condition"><input type="radio" id="Excellente" name="condition" value="Excellente" class="input">
-                <label for="Excellente">Excellente</label></div>
-
-                <div class="filtre-condition"><input type="radio" id="Bonne" name="condition" value="Bonne" class="input">
-                <label for="Bonne">Bonne</label></div>
-
-                <div class="filtre-condition"><input type="radio" id="Moyenne" name="condition" value="Moyenne" class="input">
-                <label for="Moyenne">Moyenne</label></div>
-
-                <div class="filtre-condition"><input type="radio" id="Endommage" name="condition" value="Endommage" class="input">
-                <label for="Endommage">Endommagé</label></div>
+                {% for condition in conditions %}
+                    <div class="filtre-condition">
+                        <input type="radio" id="{{condition.nom}}" name="condition" value="{{condition.nom}}" class="input input-condition">
+                        <label for="{{condition.nom}}">{{condition.nom}}</label>
+                    </div>
+                {% endfor %}
             </fieldset>
             <fieldset>
                 <legend>Certifié</legend>
 
-                <div class="filtre-certifie"><input type="radio" id="Oui" name="certifie" value="Oui" class="input">
-                <label for="Oui">Oui</label></div>
-
-                <div class="filtre-certifie"><input type="radio" id="Non" name="certifie" value="Non" class="input">
-                <label for="Non">Non</label></div>
+                {% for certifie in certifies %}
+                    <div class="filtre-certifie">
+                        <input type="radio" id="{{certifie}}" name="certifie" value="{{certifie}}" class="input input-certifie">
+                        <label for="{{certifie}}">{{certifie}}</label>
+                    </div>
+                {% endfor %}
 
             </fieldset>
         </div>
