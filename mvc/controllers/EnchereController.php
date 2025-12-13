@@ -24,6 +24,8 @@ class EnchereController {
 
         $datas = array();
 
+        $annees = ["1800 - 1850", "1851 - 1900", "1901 - 1950", "1951 - 2000", "2001 - 2050"];
+
         for ($i=0; $i < count($enchereSelect); $i++) {
 
             $enchere_id = $enchereSelect[$i]['id'];
@@ -34,13 +36,39 @@ class EnchereController {
             $timbreSelected = $timbre->selectId($timbre_id);
             $timbreName = $timbreSelected['nom'];
 
+            //filtre couleur
             $couleur_id = $timbreSelected['couleur_id'];
             $couleur = new Couleur;
             $couleurSelected = $couleur->selectId($couleur_id);
             $couleurName = $couleurSelected['nom'];
 
-            //annee ??
-            //pays ??
+            //filtre annee
+            $date_de_creation = $timbreSelected['date_de_creation'];
+            $date = new DateTime($date_de_creation);
+            $annee = (int)$date->format('Y');
+            $anneeSelected = "";
+
+            if($annee >= 1800 && $annee <= 1850){
+                $anneeSelected = $annees[0];
+            }
+            else if($annee >= 1851 && $annee <= 1900){
+                $anneeSelected = $annees[1];
+            }
+            else if($annee >= 1901 && $annee <= 1950){
+                $anneeSelected = $annees[2];
+            }
+            else if($annee >= 1951 && $annee <= 2000){
+                $anneeSelected = $annees[3];
+            }
+            else {
+                $anneeSelected = $annees[4];
+            }
+            //filtre pays
+            $pays_id = $timbreSelected['pays_dorigine_id'];
+            $pays = new PaysOrigine;
+            $paysSelected = $pays->selectId($pays_id);
+            $paysName = $paysSelected['nom'];
+
             //conditions ??
             //certifie ??
 
@@ -62,13 +90,16 @@ class EnchereController {
             $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
             $offreCount = count($offreSelect);
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName];
-
-            $couleur = new Couleur;
-            $selectCouleur = $couleur->select();
+            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName];
         }
 
-        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur]);
+        $couleur = new Couleur;
+        $selectCouleur = $couleur->select();
+
+        $pays = new PaysOrigine;
+        $selectPays = $pays->select();
+
+        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays]);
     }
 
     public function show($data = []){
