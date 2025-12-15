@@ -1,7 +1,5 @@
 let radiosClicked = [];
-
 let radiosSelected = [];
-
 let listFiltrers = [];
 
 function initialiser() {
@@ -15,31 +13,96 @@ function initialiser() {
     const condRadioList = document.querySelectorAll(".input-condition");
     const certRadioList = document.querySelectorAll(".input-certifie");
     const prixRadioList = document.querySelectorAll(".input-prix");
+    const statuRadioList = document.querySelectorAll(".input-statu");
+    const coupsRadioList = document.querySelectorAll(".input-coupsDeCoeur");
 
-    check(
+    const resetCouleur = document.querySelector("#resetCouleur");
+    checkResetPressed(resetCouleur, "couleur", listeEncheres);
+    const resetAnnee = document.querySelector("#resetAnnee");
+    checkResetPressed(resetAnnee, "annee", listeEncheres);
+    const resetPays = document.querySelector("#resetPays");
+    checkResetPressed(resetPays, "pays", listeEncheres);
+    const resetCondition = document.querySelector("#resetCondition");
+    checkResetPressed(resetCondition, "condition", listeEncheres);
+    const resetCertifie = document.querySelector("#resetCertifie");
+    checkResetPressed(resetCertifie, "certifie", listeEncheres);
+    const resetPrix = document.querySelector("#resetPrix");
+    checkResetPressed(resetPrix, "prix", listeEncheres);
+    const resetArchiver = document.querySelector("#resetArchiver");
+    checkResetPressed(resetArchiver, "statu", listeEncheres);
+    const resetCoups = document.querySelector("#resetCoups");
+    checkResetPressed(resetCoups, "coups", listeEncheres);
+
+    checkRadioPressed(
       listeEncheres,
       colorRadioList,
       anneeRadioList,
       paysRadioList,
       condRadioList,
       certRadioList,
-      prixRadioList
+      prixRadioList,
+      statuRadioList,
+      coupsRadioList
     );
   }
 }
 
-function check(
+function checkResetPressed(reset, name, listeEncheres) {
+  reset.addEventListener("click", function (event) {
+    resetRadio(name, listeEncheres);
+  });
+}
+
+function resetRadio(name, listeEncheres) {
+  const radioList = document.getElementsByName(name);
+  for (let i = 0; i < radioList.length; i++) {
+    radioList[i].checked = false;
+    clearSelection(radioList[i], listeEncheres, name);
+  }
+}
+
+function clearSelection(radio, listeEncheres, name) {
+  let index = radiosClicked.indexOf(name);
+  if (index !== -1) {
+    radiosClicked.splice(index, 1);
+    radiosSelected.splice(index, 1);
+  }
+
+  for (const enchere of listeEncheres) {
+    let shouldShow = true;
+
+    for (let i = 0; i < radiosSelected.length; i++) {
+      const filterType = radiosClicked[i];
+      const filterValue = radiosSelected[i].getAttribute("value");
+      const enchereValue = checkEnchereType(filterType, enchere);
+
+      if (filterValue !== enchereValue) {
+        shouldShow = false;
+        break;
+      }
+    }
+    if (shouldShow) {
+      enchere.classList.remove("visuellement-cache");
+    } else {
+      enchere.classList.add("visuellement-cache");
+    }
+  }
+}
+
+function checkRadioPressed(
   listeEncheres,
   colorRadioList,
   anneeRadioList,
   paysRadioList,
   condRadioList,
   certRadioList,
-  prixRadioList
+  prixRadioList,
+  statuRadioList,
+  coupsRadioList
 ) {
   colorRadioList.forEach(function (radio) {
     radio.addEventListener("change", function (event) {
-      filtrer(event.target, listeEncheres, "color");
+      filtrer(event.target, listeEncheres, "couleur");
     });
   });
 
@@ -70,6 +133,18 @@ function check(
   prixRadioList.forEach(function (radio) {
     radio.addEventListener("change", function (event) {
       filtrer(event.target, listeEncheres, "prix");
+    });
+  });
+
+  statuRadioList.forEach(function (radio) {
+    radio.addEventListener("change", function (event) {
+      filtrer(event.target, listeEncheres, "statu");
+    });
+  });
+
+  coupsRadioList.forEach(function (radio) {
+    radio.addEventListener("change", function (event) {
+      filtrer(event.target, listeEncheres, "coups");
     });
   });
 }
@@ -109,7 +184,7 @@ function filtrer(radio, listeEncheres, type) {
 }
 
 function checkEnchereType(typeCheck, enchere) {
-  if (typeCheck == "color") {
+  if (typeCheck == "couleur") {
     return enchere.getAttribute("data-couleur");
   } else if (typeCheck == "pays") {
     return enchere.getAttribute("data-pays");
@@ -121,6 +196,10 @@ function checkEnchereType(typeCheck, enchere) {
     return enchere.getAttribute("data-certifie");
   } else if (typeCheck == "prix") {
     return enchere.getAttribute("data-prix");
+  } else if (typeCheck == "statu") {
+    return enchere.getAttribute("data-statu");
+  } else if (typeCheck == "coups") {
+    return enchere.getAttribute("data-coups");
   }
 }
 

@@ -25,8 +25,9 @@ class EnchereController {
         $datas = array();
 
         $annees = ["1800 - 1850", "1851 - 1900", "1901 - 1950", "1951 - 2000", "2001 - 2050"];
-        $certifies = ["Oui", "Non"];
+        $OuiNon = ["Oui", "Non"];
         $prixList = ["0 - 25", "26 - 50", "51 - 100", "101 - 300", "301 - 700", "701 et +"];
+        $actifOuArchiver = ["Actif", "Archiver"];
 
         for ($i=0; $i < count($enchereSelect); $i++) {
 
@@ -92,6 +93,10 @@ class EnchereController {
             $prix_courant = $encherePrix;
             $prixSelected = $this->checkPrice($prix_courant, $prixList);
 
+            //filtre coups de coeur
+            $coupsDeCoeur = "Oui";
+            if($enchereSelect[$i]['coups_de_coeur'] == 0) $coupsDeCoeur = "Non";
+
             $image = new Image;
             $imageSelect = $image->selectWhere('timbre_id', $timbre_id, 'ordre_daffichage');
             $url = $imageSelect[0]['image_url'];
@@ -106,11 +111,15 @@ class EnchereController {
             $difference = $debut->diff($fin);
             $temps = $difference->format('%a days, %h hours, %i minutes');
 
+            $statu = $this->checkArchive($debut, $fin, $actifOuArchiver);
+
+            if($debut > $fin) $temps = "Expirer";
+
             $offre = new Offre;
             $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
             $offreCount = count($offreSelect);
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName, 'condition' => $condName, 'certifie' => $certifieSelect, 'prixx' => $prixSelected];
+            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName, 'condition' => $condName, 'certifie' => $certifieSelect, 'prixx' => $prixSelected, 'statu' => $statu, 'coupsDeCoeur' => $coupsDeCoeur];
         }
 
         $couleur = new Couleur;
@@ -122,7 +131,7 @@ class EnchereController {
         $condi = new Conditions;
         $selectCond = $condi->select();
 
-        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays, 'conditions' => $selectCond, 'certifies' => $certifies, 'prixx' => $prixList]);
+        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays, 'conditions' => $selectCond, 'certifies' => $OuiNon, 'prixx' => $prixList, 'status' => $actifOuArchiver, 'coupsDeCoeur' => $OuiNon]);
     }
 
     function checkPrice($prix_courant, $prixList){
@@ -146,6 +155,11 @@ class EnchereController {
         }
     }
 
+    function checkArchive($debut, $fin, $actifOuArchiver){
+        if($debut > $fin) return $actifOuArchiver[1];
+        else return $actifOuArchiver[0];
+    }
+
     public function show($data = []){
 
         Auth::session();
@@ -167,6 +181,10 @@ class EnchereController {
             $fin = new DateTime($date_de_fin);
             $difference = $debut->diff($fin);
             $temps = $difference->format('%a days, %h hours, %i minutes');
+
+            if($debut > $fin) $temps = "Expirer";
+
+            $estActif = $this->checkActif($debut, $fin);
 
             if($timbreSelectId) {
 
@@ -204,7 +222,7 @@ class EnchereController {
                     $membreName = 'Aucun';
                 }
 
-                return View::render('enchere/show', ['enchere' => $enchereSelectId, 'temps' => $temps, 'timbre' => $timbreSelectId, 'images' => $imageSelect, 'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName, 'nombreDeMises' => $offreCount, 'nomdeMembre' => $membreName]);
+                return View::render('enchere/show', ['enchere' => $enchereSelectId, 'temps' => $temps, 'timbre' => $timbreSelectId, 'images' => $imageSelect, 'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName, 'nombreDeMises' => $offreCount, 'nomdeMembre' => $membreName, 'estActif' => $estActif]);
             }
             else {
 
@@ -215,5 +233,10 @@ class EnchereController {
 
             return View::render('error', ['msg' => '404 page pas trouvee!']);
         }
+    }
+
+    function checkActif($debut, $fin){
+        if($debut > $fin) return false;
+        else return true;
     }
 }

@@ -55,6 +55,7 @@
             background: var(--couleur-accent);
             text-decoration: underline;
             color: black;
+            cursor: pointer;
 
             & a{
                 color: var(--couleur-texte);

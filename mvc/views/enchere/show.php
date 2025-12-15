@@ -32,22 +32,38 @@
                         <span class="error">{{ error }}</span>
                     {% endfor %}
 
-                    <form action="{{base}}/enchere/show?id={{ enchere.id }}" method="post" class="flex-gap colonnes">
-                        <input type="hidden" name="enchere_id" value="{{ enchere.id }}">
-                        <div id="offre" class="conteneur flex-gap colonnes centre">
-                            <p>Prix plancher: <span>{{ enchere.prix_plancher }}</span>$</p>
-                            <p>Offre actuelle: <span>{{ enchere.prix_courant }}</span>$</p>
-                            <p>par: <span>{{ nomdeMembre }}</span></p>
-                            <div id="prix" class="bg-input">
-                                <label for="cad" class="visuellement-cache">Le montant de CAD$ que vous voulez misez</label>
-                                <input class="bg-input" type="decimal" name="montant" id="cad" placeholder="Faire une mise - $CAD">
+                    {% if estActif == true %}
+                        <form action="{{base}}/enchere/show?id={{ enchere.id }}" method="post" class="flex-gap colonnes">
+                            <input type="hidden" name="enchere_id" value="{{ enchere.id }}">
+                            <div id="offre" class="conteneur flex-gap colonnes centre">
+                                <p>Prix plancher: <span>{{ enchere.prix_plancher }}</span>$</p>
+                                <p>Offre actuelle: <span>{{ enchere.prix_courant }}</span>$</p>
+                                <p>par: <span>{{ nomdeMembre }}</span></p>
+                                <div id="prix" class="bg-input">
+                                    <label for="cad" class="visuellement-cache">Le montant de CAD$ que vous voulez misez</label>
+                                    <input class="bg-input" type="decimal" name="montant" id="cad" placeholder="Faire une mise - $CAD">
+                                </div>
+                            </div>
+                            <div id="mise" class="conteneur flex-gap colonnes centre">
+                                <p>Nombres de mises: <span>{{ nombreDeMises }}</span></p>
+                                <input type="submit" value="Placer une mise" class="bouton bouton-principal">
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="flex-gap colonnes">
+                            <div id="offre" class="conteneur flex-gap colonnes centre">
+                                <p>Prix plancher: <span>{{ enchere.prix_plancher }}</span>$</p>
+                                <p>Offre gagnante: <span>{{ enchere.prix_courant }}</span>$</p>
+                                <p>Gagner par: <span>{{ nomdeMembre }}</span></p>
+                                <div id="prix" class="milieu error">
+                                    <p class="milieu">Cette enchère est expirer</p>
+                                </div>
+                            </div>
+                            <div id="mise" class="conteneur flex-gap colonnes centre">
+                                <p>Nombres de mises: <span>{{ nombreDeMises }}</span></p>
                             </div>
                         </div>
-                        <div id="mise" class="conteneur flex-gap colonnes centre">
-                            <p>Nombres de mises: <span>{{ nombreDeMises }}</span></p>
-                            <input type="submit" value="Placer une mise" class="bouton bouton-principal">
-                        </div>
-                    </form>
+                    {% endif %}
                 </section>
             </div>
         </section>

@@ -1,43 +1,45 @@
 {{ include('layouts/header.php', {title:'Portail des Encheres'})}}
 
 <main id="contenu-principal" class="flex-gap">
-<div id="filtres">
+    <div id="filtres">
             <fieldset>
                 <legend>Couleur</legend>
-
                 {% for couleur in couleurs %}
                     <div class="filtre-couleurs">
                         <input type="radio" name="couleur" id="{{ couleur.nom }}" value="{{ couleur.nom }}" class="input input-couleurs input-radio">
                         <label for="{{ couleur.nom }}">{{ couleur.nom }}</label>
                     </div>
                 {% endfor %}
-
             </fieldset>
+            <br>
+            <span id="resetCouleur" class="bouton bouton-tier">Reset Couleur</span>
+            <br><br>
             <fieldset>
                 <legend>Année de publication</legend>
-
                 {% for annee in annees %}
                     <div class="filtre-annee">
                         <input type="radio" name="annee" id="{{ annee }}" value="{{ annee }}" class="input input-annees input-radio">
                         <label for="{{ annee }}">{{ annee }}</label>
                     </div>
                 {% endfor %}
-
             </fieldset>
+            <br>
+            <span id="resetAnnee" class="bouton bouton-tier">Reset Année</span>
+            <br><br>
             <fieldset>
                 <legend>Pays d'origine</legend>
-
                 {% for pays in paysdorigines %}
                     <div class="filtre-pays">
                         <input type="radio" id="{{ pays.nom }}" name="pays" value="{{ pays.nom }}" class="input input-pays input-radio">
                         <label for="{{ pays.nom }}">{{ pays.nom }}</label>
                     </div>
                 {% endfor %}
-
             </fieldset>
+            <br>
+            <span id="resetPays" class="bouton bouton-tier">Reset Pays</span>
+            <br><br>
             <fieldset>
                 <legend>Condition</legend>
-
                 {% for condition in conditions %}
                     <div class="filtre-condition">
                         <input type="radio" id="{{condition.nom}}" name="condition" value="{{condition.nom}}" class="input input-condition">
@@ -45,29 +47,57 @@
                     </div>
                 {% endfor %}
             </fieldset>
+            <br>
+            <span id="resetCondition" class="bouton bouton-tier">Reset Condition</span>
+            <br><br>
             <fieldset>
                 <legend>Certifié</legend>
-
                 {% for certifie in certifies %}
                     <div class="filtre-certifie">
                         <input type="radio" id="{{certifie}}" name="certifie" value="{{certifie}}" class="input input-certifie">
                         <label for="{{certifie}}">{{certifie}}</label>
                     </div>
                 {% endfor %}
-
             </fieldset>
-
+            <br>
+            <span id="resetCertifie" class="bouton bouton-tier">Reset Certifié</span>
+            <br><br>
             <fieldset>
                 <legend>Prix</legend>
-
                 {% for prix in prixx %}
                     <div class="filtre-prix">
                         <input type="radio" name="prix" id="{{ prix }}" value="{{ prix }}" class="input input-prix input-radio">
                         <label for="{{ prix }}">{{ prix }}$</label>
                     </div>
                 {% endfor %}
-
             </fieldset>
+            <br>
+            <span id="resetPrix" class="bouton bouton-tier">Reset Prix</span>
+            <br><br>
+            <fieldset>
+                <legend>Actif ou Archiver</legend>
+                {% for statu in status %}
+                    <div class="filtre-statu">
+                        <input type="radio" name="statu" id="{{ statu }}" value="{{ statu }}" class="input input-statu input-radio">
+                        <label for="{{ statu }}">{{ statu }}</label>
+                    </div>
+                {% endfor %}
+            </fieldset>
+            <br>
+            <span id="resetArchiver" class="bouton bouton-tier">Reset Archiver</span>
+            <br><br>
+            <fieldset>
+                <legend>Coups de Coeur du Lord</legend>
+                {% for coups in coupsDeCoeur %}
+                    <div class="filtre-statu">
+                        <input type="radio" name="coups" id="{{ coups }}" value="{{ coups }}" class="input input-coupsDeCoeur input-radio">
+                        <label for="{{ coups }}">{{ coups }}</label>
+                    </div>
+                {% endfor %}
+            </fieldset>
+            <br>
+            <span id="resetCoups" class="bouton bouton-tier">Reset Coups</span>
+            <br><br>
         </div>
     <section id="encheres" class="flex-gap">
         <div class="resultats flex-gap">
@@ -83,6 +113,8 @@
                     data-condition="{{data.condition}}"
                     data-certifie="{{data.certifie}}"
                     data-prix="{{data.prixx}}"
+                    data-statu="{{data.statu}}"
+                    data-coups="{{data.coupsDeCoeur}}"
                     >
                     <a href="{{base}}/enchere/show?id={{ data.id }}">
                         <img src="{{ asset ~ data.url }}"  alt="{{ data.description }}">
@@ -92,7 +124,7 @@
                     </a>
                     <div class="Mise flex-gap">
                         <span><span>{{ data.nombreDeMises }}</span> mises</span>
-                        <a href="{{base}}/enchere/show?id={{ data.id }}">Misez maintenant</a>
+                        <a href="{{base}}/enchere/show?id={{ data.id }}">Voir plus sur l'enchere</a>
                     </div>
                 </li>
             {% endfor %}
