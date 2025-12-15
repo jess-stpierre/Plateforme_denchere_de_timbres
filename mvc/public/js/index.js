@@ -14,6 +14,7 @@ function initialiser() {
     const paysRadioList = document.querySelectorAll(".input-pays");
     const condRadioList = document.querySelectorAll(".input-condition");
     const certRadioList = document.querySelectorAll(".input-certifie");
+    const prixRadioList = document.querySelectorAll(".input-prix");
 
     check(
       listeEncheres,
@@ -21,7 +22,8 @@ function initialiser() {
       anneeRadioList,
       paysRadioList,
       condRadioList,
-      certRadioList
+      certRadioList,
+      prixRadioList
     );
   }
 }
@@ -32,7 +34,8 @@ function check(
   anneeRadioList,
   paysRadioList,
   condRadioList,
-  certRadioList
+  certRadioList,
+  prixRadioList
 ) {
   colorRadioList.forEach(function (radio) {
     radio.addEventListener("change", function (event) {
@@ -63,6 +66,12 @@ function check(
       filtrer(event.target, listeEncheres, "certifie");
     });
   });
+
+  prixRadioList.forEach(function (radio) {
+    radio.addEventListener("change", function (event) {
+      filtrer(event.target, listeEncheres, "prix");
+    });
+  });
 }
 
 function filtrer(radio, listeEncheres, type) {
@@ -82,7 +91,7 @@ function filtrer(radio, listeEncheres, type) {
 
     for (let i = 0; i < radiosSelected.length; i++) {
       const filterType = radiosClicked[i];
-      const filterValue = radiosSelected[i].getAttribute("id");
+      const filterValue = radiosSelected[i].getAttribute("value");
       const enchereValue = checkEnchereType(filterType, enchere);
 
       if (filterValue !== enchereValue) {
@@ -110,6 +119,8 @@ function checkEnchereType(typeCheck, enchere) {
     return enchere.getAttribute("data-condition");
   } else if (typeCheck == "certifie") {
     return enchere.getAttribute("data-certifie");
+  } else if (typeCheck == "prix") {
+    return enchere.getAttribute("data-prix");
   }
 }
 

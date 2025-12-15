@@ -56,6 +56,18 @@
                 {% endfor %}
 
             </fieldset>
+
+            <fieldset>
+                <legend>Prix</legend>
+
+                {% for prix in prixx %}
+                    <div class="filtre-prix">
+                        <input type="radio" name="prix" id="{{ prix }}" value="{{ prix }}" class="input input-prix input-radio">
+                        <label for="{{ prix }}">{{ prix }}$</label>
+                    </div>
+                {% endfor %}
+
+            </fieldset>
         </div>
     <section id="encheres" class="flex-gap">
         <div class="resultats flex-gap">
@@ -70,6 +82,7 @@
                     data-pays="{{data.pays}}"
                     data-condition="{{data.condition}}"
                     data-certifie="{{data.certifie}}"
+                    data-prix="{{data.prixx}}"
                     >
                     <a href="{{base}}/enchere/show?id={{ data.id }}">
                         <img src="{{ asset ~ data.url }}"  alt="{{ data.description }}">

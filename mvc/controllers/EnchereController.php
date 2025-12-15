@@ -26,6 +26,7 @@ class EnchereController {
 
         $annees = ["1800 - 1850", "1851 - 1900", "1901 - 1950", "1951 - 2000", "2001 - 2050"];
         $certifies = ["Oui", "Non"];
+        $prixList = ["0 - 25", "26 - 50", "51 - 100", "101 - 300", "301 - 700", "701 et +"];
 
         for ($i=0; $i < count($enchereSelect); $i++) {
 
@@ -87,8 +88,9 @@ class EnchereController {
             $condSelected = $condition->selectId($cond_id);
             $condName = $condSelected['nom'];
 
-
-            //certifie ??
+            //filtre prix
+            $prix_courant = $encherePrix;
+            $prixSelected = $this->checkPrice($prix_courant, $prixList);
 
             $image = new Image;
             $imageSelect = $image->selectWhere('timbre_id', $timbre_id, 'ordre_daffichage');
@@ -108,7 +110,7 @@ class EnchereController {
             $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
             $offreCount = count($offreSelect);
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName, 'condition' => $condName, 'certifie' => $certifieSelect];
+            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount, 'couleur' => $couleurName, 'annee' => $anneeSelected, 'pays' => $paysName, 'condition' => $condName, 'certifie' => $certifieSelect, 'prixx' => $prixSelected];
         }
 
         $couleur = new Couleur;
@@ -120,7 +122,28 @@ class EnchereController {
         $condi = new Conditions;
         $selectCond = $condi->select();
 
-        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays, 'conditions' => $selectCond, 'certifies' => $certifies]);
+        return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays, 'conditions' => $selectCond, 'certifies' => $certifies, 'prixx' => $prixList]);
+    }
+
+    function checkPrice($prix_courant, $prixList){
+        if($prix_courant >= 0 && $prix_courant <= 25){
+            return $prixList[0];
+        }
+        else if($prix_courant >= 26 && $prix_courant <= 50){
+            return $prixList[1];
+        }
+        else if($prix_courant >= 51 && $prix_courant <= 100){
+            return $prixList[2];
+        }
+        else if($prix_courant >= 101 && $prix_courant <= 300){
+            return $prixList[3];
+        }
+        else if($prix_courant >= 301 && $prix_courant <= 700){
+            return $prixList[4];
+        }
+        else {
+            return $prixList[5];
+        }
     }
 
     public function show($data = []){
