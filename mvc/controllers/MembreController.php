@@ -154,7 +154,14 @@ class MembreController {
 
                 $booleanArray = array();
                 for ($i=0; $i < count($imageSelect); $i++) {
-                    array_push($booleanArray, $image->delete($imageSelect[$i]['id']));
+
+                    $imageURL = $imageSelect[$i]['image_url'];
+                    $imageInsideUploads = $_SERVER['DOCUMENT_ROOT'] . '/' . $imageURL;
+                    $uploadsDeleted = false;
+                    if (file_exists($imageInsideUploads)) {
+                        $uploadsDeleted = unlink($imageInsideUploads);
+                    }
+                    array_push($booleanArray, $uploadsDeleted && $image->delete($imageSelect[$i]['id']));
                 }
                 $imagesDeleted = true;
                 if(empty($booleanArray) == false){

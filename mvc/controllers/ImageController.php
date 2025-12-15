@@ -18,6 +18,16 @@ class ImageController {
             $timbre_id = $data['timbre_id'];
 
             $image = new Image;
+
+            $imageSelect = $image->selectId($image_id);
+
+            $imageURL = $imageSelect['image_url'];
+            $imageInsideUploads = $_SERVER['DOCUMENT_ROOT'] . '/' . $imageURL;
+            $uploadsDeleted = false;
+            if (file_exists($imageInsideUploads)) {
+                $uploadsDeleted = unlink($imageInsideUploads);
+            }
+
             $deleted = $image->delete($image_id);
 
             if($deleted){

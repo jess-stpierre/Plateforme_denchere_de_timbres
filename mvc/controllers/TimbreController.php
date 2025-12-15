@@ -116,7 +116,6 @@ class TimbreController {
         if(isset($_FILES['image_trois']) && $_FILES['image_trois']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_trois'] = ['est_principale' => 0, 'ordre_daffichage' => 2];
         if(isset($_FILES['image_quatre']) && $_FILES['image_quatre']['error'] !== UPLOAD_ERR_NO_FILE) $imagesUploaded['image_quatre'] = ['est_principale' => 0, 'ordre_daffichage' => 3];
 
-
         if( count($imagesUploaded) > 0){
 
             $image = new Image;
@@ -367,7 +366,13 @@ class TimbreController {
 
             $booleanArray = array();
             for ($i=0; $i < count($imageSelect); $i++) {
-                array_push($booleanArray, $image->delete($imageSelect[$i]['id']));
+                $imageURL = $imageSelect[$i]['image_url'];
+                $imageInsideUploads = $_SERVER['DOCUMENT_ROOT'] . '/' . $imageURL;
+                $uploadsDeleted = false;
+                if (file_exists($imageInsideUploads)) {
+                    $uploadsDeleted = unlink($imageInsideUploads);
+                }
+                array_push($booleanArray, $uploadsDeleted && $image->delete($imageSelect[$i]['id']));
             }
             $imagesDeleted = true;
             if(empty($booleanArray) == false){
