@@ -1,4 +1,4 @@
-.bouton:not(:has(> a)){
+.bouton:not(:has(>a)){
     padding: var(--espace-petit) var(--espace-moyen);
 }
 
@@ -8,6 +8,7 @@
 
     &>a {
         padding: var(--espace-petit) var(--espace-moyen);
+        width: 100%;
     }
 
     &.bouton-principal {
@@ -64,6 +65,6 @@
     }
 
     @media (max-width: 530px){
-        margin: var(--espace-moyen) auto;
+        margin: var(--espace-petit) 0;
     }
 }

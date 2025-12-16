@@ -3,7 +3,7 @@
     <main id="contenu-principal" class="flex-gap">
         <section id="encheres" class="flex-gap">
             <div class="resultats flex-gap">
-                <h1 class="milieu">Offres Vedettes</h1>
+                <h1 class="milieu">Offres Actives</h1>
             </div>
             <ul class="grille">
             {% for data in datas %}

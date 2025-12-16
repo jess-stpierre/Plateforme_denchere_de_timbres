@@ -6,7 +6,7 @@
         <p><strong>Nom: </strong>{{ membre.nom }} </p>
         <p><strong>Nom d'Utilisateur: </strong>{{ membre.nom_dutilisateur }}</p>
         <p><strong>Courriel: </strong>{{ membre.courriel }}</p>
-        <div class="flex-de-base wrap">
+        <div class="flex-col wrap">
             <a href="{{base}}/membre/edit" class="bouton bouton-secondaire">Changer votre information</a>
             <form action="{{base}}/membre/delete" method="post">
                 <input type="hidden" name="id" value="{{ membre.id }}">

@@ -1,8 +1,13 @@
 .flex-de-base {
-
     &.wrap {
+        width: 100%;
         max-width: 300px;
         flex-wrap: wrap;
+
+        & *{
+            flex-wrap: nowrap;
+            width: 100%;
+        }
     }
 
     @media (min-width: 530px) {
@@ -50,6 +55,15 @@
     }
 }
 
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-content: center;
+    align-items: center;
+    margin: auto;
+}
+
 .visuellement-cache {
     position: absolute;
     width: 1px;
@@ -78,5 +92,5 @@
 }
 
 .milieu {
-    margin: 0 auto;
+    margin: 10px auto;
 }

@@ -49,11 +49,13 @@ class HomeController {
             $difference = $debut->diff($fin);
             $temps = $difference->format('%a days, %h hours, %i minutes');
 
+            if($debut > $fin) $temps = "Expirer";
+
             $offre = new Offre;
             $offreSelect = $offre->selectWhere('enchere_id', $enchere_id , 'id');
             $offreCount = count($offreSelect);
 
-            $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount];
+            if($debut < $fin) $datas[$i] = ['id' => $enchere_id, 'nom' => $timbreName, 'prix' => $encherePrix, 'url' => $url, 'description' => $description, 'temps' => $temps, 'nombreDeMises' => $offreCount];
         }
 
         return View::render("home", ['datas' => $datas]);

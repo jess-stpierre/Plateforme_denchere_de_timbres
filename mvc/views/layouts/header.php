@@ -74,13 +74,6 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="flex-de-base menu-milieu">
-                <li class="recherche-input">
-                    <label for="recherche" class="visuellement-cache">Recherche</label>
-                    <input type="text" name="recherche" id="recherche" class="recherche-class" placeholder="Timbre Canada 1930">
-                </li>
-                <li class="bouton bouton-tier"><a href="#">Recherche</a></li>
-            </ul>
             <ul class="flex-de-base menu-droite">
                 {% if guest %}
                     <li class="bouton bouton-principal"><a href="{{base}}/membre/create">Devenir Membre</a></li>

@@ -1,6 +1,5 @@
 let radiosClicked = [];
 let radiosSelected = [];
-let listFiltrers = [];
 
 function initialiser() {
   const checkIfOnCorrectPage = document.querySelector("#filtres");
@@ -63,7 +62,7 @@ function resetRadio(name, listeEncheres) {
 
 function clearSelection(radio, listeEncheres, name) {
   let index = radiosClicked.indexOf(name);
-  if (index !== -1) {
+  if (index >= 0) {
     radiosClicked.splice(index, 1);
     radiosSelected.splice(index, 1);
   }
@@ -72,11 +71,10 @@ function clearSelection(radio, listeEncheres, name) {
     let shouldShow = true;
 
     for (let i = 0; i < radiosSelected.length; i++) {
-      const filterType = radiosClicked[i];
-      const filterValue = radiosSelected[i].getAttribute("value");
-      const enchereValue = checkEnchereType(filterType, enchere);
+      const filtreValue = radiosSelected[i].getAttribute("value");
+      const enchereValue = checkEnchereType(radiosClicked[i], enchere);
 
-      if (filterValue !== enchereValue) {
+      if (filtreValue !== enchereValue) {
         shouldShow = false;
         break;
       }
@@ -151,7 +149,7 @@ function checkRadioPressed(
 
 function filtrer(radio, listeEncheres, type) {
   let index = radiosClicked.indexOf(type);
-  if (index !== -1) {
+  if (index >= 0) {
     radiosClicked.splice(index, 1);
     radiosSelected.splice(index, 1);
   }
@@ -159,24 +157,20 @@ function filtrer(radio, listeEncheres, type) {
   radiosClicked.push(type);
   radiosSelected.push(radio);
 
-  listFiltrers = [];
-
   for (const enchere of listeEncheres) {
     let shouldShow = true;
 
     for (let i = 0; i < radiosSelected.length; i++) {
-      const filterType = radiosClicked[i];
-      const filterValue = radiosSelected[i].getAttribute("value");
-      const enchereValue = checkEnchereType(filterType, enchere);
+      const filtreValue = radiosSelected[i].getAttribute("value");
+      const enchereValue = checkEnchereType(radiosClicked[i], enchere);
 
-      if (filterValue !== enchereValue) {
+      if (filtreValue !== enchereValue) {
         shouldShow = false;
         break;
       }
     }
     if (shouldShow) {
       enchere.classList.remove("visuellement-cache");
-      listFiltrers.push(enchere);
     } else {
       enchere.classList.add("visuellement-cache");
     }

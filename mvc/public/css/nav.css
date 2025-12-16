@@ -42,10 +42,6 @@
                 color: var(--couleur-texte);
             }
         }
-
-        & li+li{
-            margin: var(--espace-tres-petit) 0px;
-        }
 	}
 
     &.navigation-principal {

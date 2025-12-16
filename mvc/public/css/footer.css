@@ -1,6 +1,6 @@
 
 [id="footer"] {
-    width: 100%;
+    min-width: 100%;
     background-color:var(--couleur-principale);
     padding: var(--espace-moyen);
     display: grid;

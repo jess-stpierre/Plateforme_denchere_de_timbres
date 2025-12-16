@@ -3,7 +3,7 @@
 <main>
     <div class="container flex-col-center">
         <h1 class="milieu"> Changement d'informations de membre </h1>
-        <form method="post" class="flex-col-center">
+        <form method="post" class="flex-col">
             <label>
                 Nom
                 <input type="text" name="nom" value="{{ membre.nom }}">

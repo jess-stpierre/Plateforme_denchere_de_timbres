@@ -49,23 +49,7 @@ class EnchereController {
             $date_de_creation = $timbreSelected['date_de_creation'];
             $date = new DateTime($date_de_creation);
             $annee = (int)$date->format('Y');
-            $anneeSelected = "";
-
-            if($annee >= 1800 && $annee <= 1850){
-                $anneeSelected = $annees[0];
-            }
-            else if($annee >= 1851 && $annee <= 1900){
-                $anneeSelected = $annees[1];
-            }
-            else if($annee >= 1901 && $annee <= 1950){
-                $anneeSelected = $annees[2];
-            }
-            else if($annee >= 1951 && $annee <= 2000){
-                $anneeSelected = $annees[3];
-            }
-            else {
-                $anneeSelected = $annees[4];
-            }
+            $anneeSelected = $this->checkYear($annee, $annees);
 
             //filtre certifie
             $certifieSelect = "";
@@ -132,6 +116,24 @@ class EnchereController {
         $selectCond = $condi->select();
 
         return View::render("enchere/index", ['datas' => $datas, 'couleurs' => $selectCouleur, 'annees' => $annees, 'paysdorigines' => $selectPays, 'conditions' => $selectCond, 'certifies' => $OuiNon, 'prixx' => $prixList, 'status' => $actifOuArchiver, 'coupsDeCoeur' => $OuiNon]);
+    }
+
+    function checkYear($annee, $annees){
+        if($annee >= 1800 && $annee <= 1850){
+            return $annees[0];
+        }
+        else if($annee >= 1851 && $annee <= 1900){
+            return $annees[1];
+        }
+        else if($annee >= 1901 && $annee <= 1950){
+            return $annees[2];
+        }
+        else if($annee >= 1951 && $annee <= 2000){
+            return $annees[3];
+        }
+        else {
+            return $annees[4];
+        }
     }
 
     function checkPrice($prix_courant, $prixList){

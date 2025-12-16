@@ -11,9 +11,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetCouleur" class="bouton bouton-tier">Reset Couleur</span>
-            <br><br>
+            <button id="resetCouleur" class="bouton bouton-tier">Reset Couleur</button>
             <fieldset>
                 <legend>Année de publication</legend>
                 {% for annee in annees %}
@@ -23,9 +21,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetAnnee" class="bouton bouton-tier">Reset Année</span>
-            <br><br>
+            <button id="resetAnnee" class="bouton bouton-tier">Reset Année de Publication</button>
             <fieldset>
                 <legend>Pays d'origine</legend>
                 {% for pays in paysdorigines %}
@@ -35,9 +31,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetPays" class="bouton bouton-tier">Reset Pays</span>
-            <br><br>
+            <button id="resetPays" class="bouton bouton-tier">Reset Pays d'origine</button>
             <fieldset>
                 <legend>Condition</legend>
                 {% for condition in conditions %}
@@ -47,9 +41,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetCondition" class="bouton bouton-tier">Reset Condition</span>
-            <br><br>
+            <button id="resetCondition" class="bouton bouton-tier">Reset Condition</button>
             <fieldset>
                 <legend>Certifié</legend>
                 {% for certifie in certifies %}
@@ -59,9 +51,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetCertifie" class="bouton bouton-tier">Reset Certifié</span>
-            <br><br>
+            <button id="resetCertifie" class="bouton bouton-tier">Reset Certifié</button>
             <fieldset>
                 <legend>Prix</legend>
                 {% for prix in prixx %}
@@ -71,9 +61,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetPrix" class="bouton bouton-tier">Reset Prix</span>
-            <br><br>
+            <button id="resetPrix" class="bouton bouton-tier">Reset Prix</button>
             <fieldset>
                 <legend>Actif ou Archiver</legend>
                 {% for statu in status %}
@@ -83,9 +71,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetArchiver" class="bouton bouton-tier">Reset Archiver</span>
-            <br><br>
+            <button id="resetArchiver" class="bouton bouton-tier">Reset Actif ou Archiver</button>
             <fieldset>
                 <legend>Coups de Coeur du Lord</legend>
                 {% for coups in coupsDeCoeur %}
@@ -95,9 +81,7 @@
                     </div>
                 {% endfor %}
             </fieldset>
-            <br>
-            <span id="resetCoups" class="bouton bouton-tier">Reset Coups</span>
-            <br><br>
+            <button id="resetCoups" class="bouton bouton-tier">Reset Coups de Coeur du Lord</button>
         </div>
     <section id="encheres" class="flex-gap">
         <div class="resultats flex-gap">

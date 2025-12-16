@@ -20,7 +20,7 @@
                         <a href="#">(+)</a>
                         <a href="#">></a>
                     </div>
-                    <p class="flex-gap centre">{{ timbre.description }}</p>
+                    <p class="milieu">{{ timbre.description }}</p>
                 </div>
                 <section class="flex-gap colonnes centre">
                     {% if enchere.coups_de_coeur == 1 %}
