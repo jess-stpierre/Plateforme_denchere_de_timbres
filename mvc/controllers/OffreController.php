@@ -88,9 +88,9 @@ class OffreController {
                 $offreCount = count($offreSelect);
 
                 //Trouver qui a fais la derniere offre
-                $offreSelectId = $offre->selectId($offreSelect[0]['id']);
+                if($offreSelect != null) $offreSelectId = $offre->selectId($offreSelect[0]['id']);
                 $membre = new Membre;
-                if(empty($offreSelectId) == false){
+                if($offreSelect != null && empty($offreSelectId) == false){
                     $membreSelectId = $membre->selectId($offreSelectId['membre_id']);
                     $membreName = $membreSelectId['nom'];
                 }
@@ -98,12 +98,19 @@ class OffreController {
                     $membreName = 'Aucun';
                 }
 
-                return View::render('enchere/show', ['errors' => $errors, 'enchere' => $enchereSelectId, 'temps' => $temps, 'timbre' => $timbreSelectId, 'images' => $imageSelect, 'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName, 'nombreDeMises' => $offreCount, 'nomdeMembre' => $membreName]);
+                $estActif = $this->checkActif($debut, $fin);
+
+                return View::render('enchere/show', ['errors' => $errors, 'enchere' => $enchereSelectId, 'temps' => $temps, 'timbre' => $timbreSelectId, 'images' => $imageSelect, 'couleur' => $couleurName, 'pays' => $paysdOrigine, 'condition' => $conditionName, 'nombreDeMises' => $offreCount, 'nomdeMembre' => $membreName, 'estActif' => $estActif]);
             }
         }
         else {
             return View::render('error', ['msg' => '404 page pas trouvee!']);
         }
+    }
+
+    function checkActif($debut, $fin){
+        if($debut > $fin) return false;
+        else return true;
     }
 
     public function index(){
